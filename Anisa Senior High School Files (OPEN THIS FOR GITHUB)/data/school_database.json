@@ -1,0 +1,254 @@
+{
+  "schoolInfo": {
+    "name": "Anisa Senior High School",
+    "motto": "Excellence • Leadership • Integrity",
+    "address": "Route des Almadies Campus, Dakar",
+    "phone": "+19174788477",
+    "email": "anisa2009@gmail.com",
+    "website": "american-dara-academy-1-uyy3.onrender.com",
+    "logoUrl": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80",
+    "letterhead": {
+      "useImageLetterhead": false,
+      "letterheadImageUrl": "",
+      "headerTitle": "ANISA SENIOR HIGH SCHOOL",
+      "subHeader": "SENIOR HIGH SCHOOL • GRADES 9 - 12",
+      "accreditation": "Accredited by WASC & Ministry of National Education",
+      "address": "Route des Almadies Campus, Dakar",
+      "contact": "Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com | Web: american-dara-academy-1-uyy3.onrender.com",
+      "watermarkEnabled": false,
+      "watermarkOpacity": 0,
+      "dashboardLogoOpacity": 0
+    },
+    "gradingScale": [
+      {
+        "min": 93,
+        "grade": "A",
+        "gpa": 4
+      },
+      {
+        "min": 90,
+        "grade": "A-",
+        "gpa": 3.7
+      },
+      {
+        "min": 87,
+        "grade": "B+",
+        "gpa": 3.3
+      },
+      {
+        "min": 83,
+        "grade": "B",
+        "gpa": 3
+      },
+      {
+        "min": 80,
+        "grade": "B-",
+        "gpa": 2.7
+      },
+      {
+        "min": 77,
+        "grade": "C+",
+        "gpa": 2.3
+      },
+      {
+        "min": 73,
+        "grade": "C",
+        "gpa": 2
+      },
+      {
+        "min": 70,
+        "grade": "C-",
+        "gpa": 1.7
+      },
+      {
+        "min": 65,
+        "grade": "D",
+        "gpa": 1
+      },
+      {
+        "min": 0,
+        "grade": "F",
+        "gpa": 0
+      }
+    ]
+  },
+  "staff": [
+    {
+      "id": "DIR-001",
+      "name": "Mr. Abdul Nasir Musah",
+      "role": "DIRECTOR",
+      "division": "Senior High School (Grades 9-12)",
+      "title": "Head of School / Principal",
+      "email": "anisa2009@gmail.com",
+      "password": "admin",
+      "phone": "+19174788477",
+      "avatar": "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80"
+    }
+  ],
+  "courses": [
+    {
+      "id": "CRS-CORE-MATH",
+      "name": "Mathematics (Core)",
+      "code": "MATH-C",
+      "category": "Core Subject",
+      "track": "All Courses",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-CORE-ENG",
+      "name": "English Language",
+      "code": "ENG-C",
+      "category": "Core Subject",
+      "track": "All Courses",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-CORE-SOC",
+      "name": "Social Studies",
+      "code": "SOC-C",
+      "category": "Core Subject",
+      "track": "All Courses",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-CORE-SCI",
+      "name": "Integrated Science",
+      "code": "SCI-C",
+      "category": "Core Subject",
+      "track": "All Courses",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-BUS-ACC",
+      "name": "Financial Accounting",
+      "code": "ACC-101",
+      "category": "Elective",
+      "track": "Business",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-BUS-BM",
+      "name": "Business Management",
+      "code": "BM-101",
+      "category": "Elective",
+      "track": "Business",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-BUS-COST",
+      "name": "Cost Accounting",
+      "code": "COST-101",
+      "category": "Elective",
+      "track": "Business",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-BUS-ECON",
+      "name": "Economics",
+      "code": "ECON-101",
+      "category": "Elective",
+      "track": "Business",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-BUS-EMATH",
+      "name": "Elective Mathematics",
+      "code": "EMATH-101",
+      "category": "Elective",
+      "track": "Business",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-ART-LIT",
+      "name": "Literature in English",
+      "code": "LIT-101",
+      "category": "Elective",
+      "track": "General Arts",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-ART-GOV",
+      "name": "Government",
+      "code": "GOV-101",
+      "category": "Elective",
+      "track": "General Arts",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-ART-HIST",
+      "name": "History",
+      "code": "HIST-101",
+      "category": "Elective",
+      "track": "General Arts",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-ART-GEOG",
+      "name": "Geography",
+      "code": "GEOG-101",
+      "category": "Elective",
+      "track": "General Arts",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-ART-CRS",
+      "name": "Christian Religious Studies (CRS)",
+      "code": "CRS-101",
+      "category": "Elective",
+      "track": "General Arts",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-ART-FREN",
+      "name": "French Language",
+      "code": "FREN-101",
+      "category": "Elective",
+      "track": "General Arts",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-HE-FN",
+      "name": "Food and Nutrition",
+      "code": "FN-101",
+      "category": "Elective",
+      "track": "Home Economics",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-HE-CT",
+      "name": "Clothing and Textiles",
+      "code": "CT-101",
+      "category": "Elective",
+      "track": "Home Economics",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-HE-ML",
+      "name": "Management in Living",
+      "code": "ML-101",
+      "category": "Elective",
+      "track": "Home Economics",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-HE-GKA",
+      "name": "General Knowledge in Art (GKA)",
+      "code": "GKA-101",
+      "category": "Elective",
+      "track": "Home Economics",
+      "division": "Senior High School"
+    },
+    {
+      "id": "CRS-HE-BIO",
+      "name": "Biology",
+      "code": "BIO-101",
+      "category": "Elective",
+      "track": "Home Economics",
+      "division": "Senior High School"
+    }
+  ],
+  "assignments": [],
+  "students": [],
+  "gradebook": [],
+  "attendance": []
+}

@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anisa Senior High School | Student Management & GradeLink Portal</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ashs: {
+              blue: '#1e3a8a',
+              'blue-dark': '#0f172a',
+              'blue-light': '#2563eb',
+              'blue-subtle': '#eff6ff',
+              pink: '#ec4899',
+              'pink-dark': '#db2777',
+              'pink-light': '#f472b6',
+              'pink-bg': '#fdf2f8',
+              'pink-border': '#fbcfe8'
+            },
+            ada: {
+              navy: '#1e3a8a',
+              'navy-dark': '#0f172a',
+              'navy-light': '#2563eb',
+              gold: '#ec4899',
+              'gold-light': '#f472b6',
+              'gold-accent': '#fbcfe8',
+              slate: '#f8fafc',
+              border: '#e2e8f0'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            crest: ['Cinzel', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col antialiased">
+
+  <!-- =========================================================
+       1. GLOBAL AUTHENTICATION / TOP HEADER (GRADELINK STYLE)
+       ========================================================= -->
+  <header class="sticky top-0 z-40 bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white shadow-md no-print border-b border-pink-500/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-4">
+        
+        <!-- App Logo & School Name & Website URL -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToDashboard()">
+          <img id="app-header-logo" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80" alt="Logo" class="w-10 h-10 rounded-xl object-cover ring-2 ring-pink-400/60 shadow-md">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-crest font-bold text-base sm:text-lg tracking-wider text-white" id="header-school-name">ANISA SENIOR HIGH SCHOOL</span>
+              <a href="https://american-dara-academy-1-uyy3.onrender.com" target="_blank" onclick="event.stopPropagation()" class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-400/30 hover:bg-pink-600 hover:text-white transition hidden sm:inline-flex items-center gap-1" id="header-website-badge">
+                <i data-lucide="globe" class="w-3 h-3"></i> american-dara-academy-1-uyy3.onrender.com
+              </a>
+            </div>
+            <p class="text-[10px] text-pink-200/90 tracking-wide font-semibold">SENIOR HIGH SCHOOL • GRADES 9 - 12</p>
+          </div>
+        </div>
+
+        <!-- Controls: User Profile Badge & Login/Logout & Mobile Connect -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          
+          <!-- Share Portal with Staff Button -->
+          <button onclick="openSharePortalModal()" class="px-3 py-1.5 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
+            <i data-lucide="share-2" class="w-3.5 h-3.5 text-pink-200"></i> <span class="hidden sm:inline">Share with Staff</span>
+          </button>
+
+          <!-- Connect Phone & Remote Devices Button -->
+          <button onclick="openRemoteAccessModal()" class="px-3 py-1.5 bg-blue-900/70 hover:bg-blue-800 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 border border-pink-400/30 shadow">
+            <i data-lucide="smartphone" class="w-3.5 h-3.5 text-pink-300"></i> <span class="hidden sm:inline">Mobile QR</span>
+          </button>
+
+          <!-- User Profile State Badge & Crest Logo (Clickable to change) -->
+          <div id="auth-profile-badge" class="flex items-center gap-2.5 pl-2 border-l border-white/10 cursor-pointer group hover:bg-white/5 py-1 px-2 rounded-xl transition" onclick="handleProfileBadgeClick()" title="Click to Change Crest Logo / Photo & Profile">
+            <div class="relative">
+              <img id="auth-user-avatar" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80" class="w-9 h-9 rounded-full ring-2 ring-pink-400 object-cover shadow-sm group-hover:scale-105 transition">
+              <div class="absolute -bottom-1 -right-1 bg-pink-500 text-white p-0.5 rounded-full ring-1 ring-white shadow text-[9px] flex items-center justify-center">
+                <i data-lucide="camera" class="w-2.5 h-2.5"></i>
+              </div>
+            </div>
+            <div class="hidden md:block text-left">
+              <div id="auth-user-name" class="text-xs font-bold text-white leading-tight flex items-center gap-1">
+                <span>Mr. Abdul Nasir Musah</span>
+                <i data-lucide="edit-2" class="w-2.5 h-2.5 text-pink-300 opacity-0 group-hover:opacity-100 transition"></i>
+              </div>
+              <div id="auth-user-role" class="text-[10px] font-semibold text-pink-300">Head of School • Senior High</div>
+            </div>
+          </div>
+
+          <!-- Login / Logout Button -->
+          <button id="auth-logout-btn" onclick="handleLogout()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Logout</span>
+          </button>
+          <button id="auth-login-btn" onclick="openLoginModal()" class="px-3 py-1.5 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow hidden">
+            <i data-lucide="log-in" class="w-3.5 h-3.5"></i> <span>Login</span>
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       2. SUBNAV BREADCRUMB & ROLE-AWARE ACTION SHORTCUTS
+       ========================================================= -->
+  <div class="bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-2 sticky top-16 z-30 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-xs font-semibold text-slate-600" id="portal-breadcrumb">
+        <button onclick="navigateToDashboard()" class="text-blue-900 hover:text-pink-600 flex items-center gap-1">
+          <i data-lucide="layout-grid" class="w-4 h-4 text-pink-500"></i> Main Dashboard
+        </button>
+        <span id="breadcrumb-separator" class="text-slate-300">/</span>
+        <span id="breadcrumb-current-view" class="text-slate-800 font-bold">Senior High Hub</span>
+      </div>
+
+      <!-- Quick Action Shortcuts -->
+      <div class="flex items-center gap-2">
+        <button onclick="openSharePortalModal()" class="px-3 py-1 bg-pink-50 hover:bg-pink-100 text-pink-900 font-bold rounded-lg text-xs border border-pink-200 flex items-center gap-1">
+          <i data-lucide="send" class="w-3.5 h-3.5 text-pink-600"></i> Send to Staff
+        </button>
+        <button onclick="openAddAssignmentModal()" class="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-900 font-bold rounded-lg text-xs border border-blue-200 flex items-center gap-1">
+          <i data-lucide="file-plus" class="w-3.5 h-3.5 text-blue-600"></i> + Assignment
+        </button>
+        <button onclick="openManualGradeModal()" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-lg text-xs border border-slate-200 flex items-center gap-1">
+          <i data-lucide="award" class="w-3.5 h-3.5 text-pink-600"></i> + Enter Grade
+        </button>
+
+        <!-- Admin / Dean Only Shortcuts -->
+        <button data-role-restricted="DIRECTOR,DEAN" onclick="openCreateTeacherModal()" class="px-3 py-1 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white font-bold rounded-lg text-xs flex items-center gap-1 shadow-sm">
+          <i data-lucide="user-check" class="w-3.5 h-3.5 text-pink-200"></i> + Teacher Login
+        </button>
+        <button data-role-restricted="DIRECTOR,DEAN" onclick="openEnrollStudentModal()" class="px-3 py-1 bg-pink-50 hover:bg-pink-100 text-pink-900 border border-pink-200 font-bold rounded-lg text-xs flex items-center gap-1">
+          <i data-lucide="user-plus" class="w-3.5 h-3.5 text-pink-600"></i> + Student
+        </button>
+        <button data-role-restricted="DIRECTOR,DEAN" onclick="openAddCourseModal()" class="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 font-bold rounded-lg text-xs flex items-center gap-1">
+          <i data-lucide="book-plus" class="w-3.5 h-3.5 text-blue-600"></i> + Subject
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       3. MAIN CONTENT CONTAINER
+       ========================================================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- -------------------------------------------------------
+         VIEW A: GRADELINK ICON DASHBOARD
+         ------------------------------------------------------- -->
+    <div id="view-dashboard" class="space-y-8 relative min-h-[70vh]">
+
+      <!-- Welcome Banner -->
+      <div class="relative z-10 bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-pink-500/30 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-left">
+          <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-pink-500/20 text-pink-300 text-xs font-bold" id="dash-role-pill">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Senior High Authenticated Session
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-crest font-bold text-white">
+            Welcome, <span id="dash-welcome-name">Mr. Abdul Nasir Musah</span>
+          </h1>
+          <p class="text-xs sm:text-sm text-pink-100/90 max-w-2xl leading-relaxed" id="dash-welcome-description">
+            Anisa Senior High School academic portal. Manage high school courses, assign faculty, publish assignments, and record student grades.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button data-role-restricted="DIRECTOR,DEAN" onclick="openCreateTeacherModal()" class="px-4 py-2.5 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2">
+            <i data-lucide="user-plus" class="w-4 h-4 text-pink-200"></i> + Teacher Login
+          </button>
+          <button onclick="openSharePortalModal()" class="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-4 h-4 text-pink-300"></i> Send Link to Teachers
+          </button>
+          <button onclick="openAddAssignmentModal()" class="px-4 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2">
+            <i data-lucide="file-plus" class="w-4 h-4"></i> + Add Assignment
+          </button>
+          <button data-role-restricted="DIRECTOR" onclick="openDirectorStaffModal()" class="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-xs border border-pink-400/30 transition flex items-center justify-center gap-2">
+            <i data-lucide="shield" class="w-4 h-4 text-pink-300"></i> Director Space
+          </button>
+        </div>
+      </div>
+
+      <!-- Dashboard Interactive Tiles -->
+      <div class="relative z-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6" id="dashboard-tiles-grid">
+        
+        <!-- Tile 1: Assignments Hub (TEACHERS & DIRECTORS) -->
+        <div class="gradelink-tile group border-pink-300/80 bg-pink-50/20" onclick="switchView('assignments')">
+          <div class="gradelink-tile-icon bg-pink-100 text-pink-700 group-hover:bg-pink-600 group-hover:text-white">
+            <i data-lucide="file-text" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Assignments & Worksheets</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Exams, Homework, Class Work, Class Tests & Uploads</p>
+          <span class="mt-3 text-[10px] font-bold text-pink-700 bg-pink-100 px-2 py-0.5 rounded-full" id="tile-assignment-count">0 Active</span>
+        </div>
+
+        <!-- Tile 2: Master Gradebook (TEACHERS & DIRECTORS) -->
+        <div class="gradelink-tile group" onclick="switchView('gradebook')">
+          <div class="gradelink-tile-icon bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white">
+            <i data-lucide="award" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Gradebook & Scores</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Add, edit marks & auto-calculated GPA</p>
+          <span class="mt-3 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Gradebook</span>
+        </div>
+
+        <!-- Tile 3: Daily Attendance (TEACHERS & DIRECTORS) -->
+        <div class="gradelink-tile group" onclick="switchView('attendance')">
+          <div class="gradelink-tile-icon bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white">
+            <i data-lucide="calendar-check" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Daily Attendance</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Classroom attendance roster tracker</p>
+          <span class="mt-3 text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">Attendance</span>
+        </div>
+
+        <!-- Tile 4: Students SIS (DIRECTOR & DEAN ONLY) -->
+        <div data-role-restricted="DIRECTOR,DEAN" class="gradelink-tile group" onclick="switchView('students')">
+          <div class="gradelink-tile-icon bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white">
+            <i data-lucide="users" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Students (SIS)</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Grades 9, 10, 11 & 12 roster</p>
+          <span class="mt-3 text-[10px] font-bold text-pink-700 bg-pink-50 px-2 py-0.5 rounded-full" id="tile-student-count">0 Enrolled</span>
+        </div>
+
+        <!-- Tile 5: Add Subject (DIRECTOR & DEAN ONLY) -->
+        <div data-role-restricted="DIRECTOR,DEAN" class="gradelink-tile group" onclick="openAddCourseModal()">
+          <div class="gradelink-tile-icon bg-pink-50 text-pink-600 group-hover:bg-pink-600 group-hover:text-white">
+            <i data-lucide="book-plus" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Add Subject</h3>
+          <p class="text-[11px] text-slate-500 mt-1">High School curriculum & setup</p>
+          <span class="mt-3 text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full" id="tile-course-count">0 Subjects</span>
+        </div>
+
+        <!-- Tile 6: Director Space (DIRECTOR ONLY) -->
+        <div data-role-restricted="DIRECTOR" class="gradelink-tile group" onclick="openDirectorStaffModal()">
+          <div class="gradelink-tile-icon bg-blue-50 text-blue-800 group-hover:bg-blue-700 group-hover:text-white">
+            <i data-lucide="shield" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Director Space</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Add Deans, Teachers & Staff accounts</p>
+          <span class="mt-3 text-[10px] font-bold text-pink-700 bg-pink-50 px-2 py-0.5 rounded-full" id="tile-staff-count">1 Staff</span>
+        </div>
+
+        <!-- Tile 7: Logo & Letterhead Config (DIRECTOR ONLY) -->
+        <div data-role-restricted="DIRECTOR" class="gradelink-tile group" onclick="openLetterheadConfigModal()">
+          <div class="gradelink-tile-icon bg-pink-50 text-pink-600 group-hover:bg-pink-600 group-hover:text-white">
+            <i data-lucide="stamp" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Logo & Letterhead Image</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Upload school logo & letterhead banner images</p>
+          <span class="mt-3 text-[10px] font-bold text-pink-700 bg-pink-50 px-2 py-0.5 rounded-full">Branding</span>
+        </div>
+
+        <!-- Tile 8: Print Transcripts (DIRECTOR & DEAN) -->
+        <div data-role-restricted="DIRECTOR,DEAN" class="gradelink-tile group" onclick="openPrintReportsPreview()">
+          <div class="gradelink-tile-icon bg-indigo-50 text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white">
+            <i data-lucide="printer" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Print Transcripts</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Official high school report cards & GPA</p>
+          <span class="mt-3 text-[10px] font-bold text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full">Transcripts</span>
+        </div>
+
+        <!-- Tile 9: Broadcast to All Parents (DIRECTOR & DEAN & TEACHERS) -->
+        <div class="gradelink-tile group border-pink-200/80 bg-pink-50/20" onclick="openBroadcastParentsModal()">
+          <div class="gradelink-tile-icon bg-pink-100 text-pink-700 group-hover:bg-pink-600 group-hover:text-white">
+            <i data-lucide="megaphone" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Notice to All Parents</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Mass WhatsApp & Gmail broadcast to parents at once</p>
+          <span class="mt-3 text-[10px] font-bold text-pink-800 bg-pink-100 px-2 py-0.5 rounded-full">WhatsApp & Gmail</span>
+        </div>
+
+        <!-- Tile 10: Mobile QR Code Login -->
+        <div class="gradelink-tile group border-blue-300/80 bg-blue-50/20" onclick="openRemoteAccessModal()">
+          <div class="gradelink-tile-icon bg-blue-100 text-blue-800 group-hover:bg-blue-600 group-hover:text-white">
+            <i data-lucide="qr-code" class="w-7 h-7"></i>
+          </div>
+          <h3 class="font-bold text-sm text-slate-900">Mobile QR Login</h3>
+          <p class="text-[11px] text-slate-500 mt-1">Scan QR code with phone camera to open portal on mobile</p>
+          <span class="mt-3 text-[10px] font-bold text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full">Scan QR Code</span>
+        </div>
+
+      </div>
+
+      <!-- Quick Roster Overview -->
+      <div class="relative z-10 bg-white/95 backdrop-blur-sm rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="font-bold text-blue-950 text-base">Senior High Class Roster & Student Marks</h3>
+            <p class="text-xs text-slate-500">Senior High School • Grades 9, 10, 11 & 12</p>
+          </div>
+          <button onclick="switchView('gradebook')" class="text-xs font-bold text-blue-900 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-3.5 py-1.5 rounded-xl transition">
+            Open Full Gradebook &rarr;
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th class="p-3">Scholar Name</th>
+                <th class="p-3">ID</th>
+                <th class="p-3">Course & Grade</th>
+                <th class="p-3">Assigned Teacher</th>
+                <th class="p-3">Current Score</th>
+                <th class="p-3">GPA</th>
+                <th class="p-3 text-right">Teacher Action</th>
+              </tr>
+            </thead>
+            <tbody id="dash-quick-students-tbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- -------------------------------------------------------
+         VIEW B: ASSIGNMENTS & WORKSHEETS HUB
+         ------------------------------------------------------- -->
+    <div id="view-assignments" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div>
+          <h1 class="text-2xl font-crest font-bold text-blue-950">Assignments & Worksheets Hub</h1>
+          <p class="text-xs text-slate-500">Create, upload worksheets, and grade Exams, Homework, Class Work, and Class Tests.</p>
+        </div>
+        <button onclick="openAddAssignmentModal()" class="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-1.5">
+          <i data-lucide="file-plus" class="w-4 h-4 text-pink-200"></i> + Add / Upload Assignment
+        </button>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="filterAssignmentsByCategory('all')" id="asn-filter-all" class="px-3.5 py-1.5 bg-blue-900 text-white rounded-lg text-xs font-bold shadow">All Assignments</button>
+        <button onclick="filterAssignmentsByCategory('Exam')" id="asn-filter-exam" class="px-3.5 py-1.5 bg-red-50 hover:bg-red-100 text-red-800 border border-red-200 rounded-lg text-xs font-bold">📕 Exams</button>
+        <button onclick="filterAssignmentsByCategory('Homework')" id="asn-filter-hw" class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-lg text-xs font-bold">📗 Homework</button>
+        <button onclick="filterAssignmentsByCategory('Class Work')" id="asn-filter-cw" class="px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 rounded-lg text-xs font-bold">📘 Class Work</button>
+        <button onclick="filterAssignmentsByCategory('Class Test')" id="asn-filter-test" class="px-3.5 py-1.5 bg-pink-50 hover:bg-pink-100 text-pink-800 border border-pink-200 rounded-lg text-xs font-bold">📙 Class Tests</button>
+      </div>
+
+      <!-- Assignment Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="assignments-grid-container"></div>
+    </div>
+
+    <!-- -------------------------------------------------------
+         VIEW C: STUDENTS SIS (ADMIN ONLY)
+         ------------------------------------------------------- -->
+    <div id="view-students" class="space-y-6 hidden">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div>
+          <h1 class="text-2xl font-crest font-bold text-blue-950">Student Information System (SIS)</h1>
+          <p class="text-xs text-slate-500">Senior High School roster (Grades 9, 10, 11, and 12).</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openBroadcastParentsModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-1.5">
+            <i data-lucide="megaphone" class="w-4 h-4 text-pink-200"></i> Notice to All Parents
+          </button>
+          <button onclick="openEnrollStudentModal()" class="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-1.5">
+            <i data-lucide="user-plus" class="w-4 h-4 text-pink-200"></i> + Add Student
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+          <input type="text" id="sis-search-input" onkeyup="filterStudentList()" placeholder="Search by name, ID, or teacher..." class="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg">
+        </div>
+        <div>
+          <select id="sis-course-filter" onchange="filterStudentList()" class="w-full py-2 px-3 text-xs bg-white border border-pink-300 rounded-lg text-blue-950 font-bold">
+            <option value="all">All Courses (Business, General Arts, Home Economics)</option>
+            <option value="Business">📊 Business</option>
+            <option value="General Arts">🎨 General Arts</option>
+            <option value="Home Economics">🍳 Home Economics</option>
+          </select>
+        </div>
+        <div>
+          <select id="sis-division-filter" onchange="filterStudentList()" class="w-full py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-semibold">
+            <option value="all">All Grades (Grades 9 - 12)</option>
+            <option value="Grade 9">Grade 9 (Senior High 1)</option>
+            <option value="Grade 10">Grade 10 (Senior High 2)</option>
+            <option value="Grade 11">Grade 11 (Senior High 3)</option>
+            <option value="Grade 12">Grade 12 (Senior High 4)</option>
+          </select>
+        </div>
+        <div>
+          <select id="sis-status-filter" onchange="filterStudentList()" class="w-full py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-semibold">
+            <option value="all">All Academic Standings</option>
+            <option value="Honors List">Honors List</option>
+            <option value="Active">Active</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Directory Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+              <tr>
+                <th class="p-3.5">Scholar</th>
+                <th class="p-3.5">ID</th>
+                <th class="p-3.5">Course & Grade</th>
+                <th class="p-3.5">Assigned Teacher</th>
+                <th class="p-3.5">Guardian Contact</th>
+                <th class="p-3.5">GPA</th>
+                <th class="p-3.5 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="sis-students-table-body" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- -------------------------------------------------------
+         VIEW D: MASTER GRADEBOOK (ADD & EDIT GRADES)
+         ------------------------------------------------------- -->
+    <div id="view-gradebook" class="space-y-6 hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div>
+          <h1 class="text-2xl font-crest font-bold text-blue-950">Master Gradebook & Assessments</h1>
+          <p class="text-xs text-slate-500">Edit marks for Exams, Homework, Class Work, and Class Tests inline or via entry modal.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openAddAssignmentModal()" class="px-3.5 py-2 bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-1.5">
+            <i data-lucide="file-plus" class="w-4 h-4"></i> + Add Assignment
+          </button>
+          <button onclick="openManualGradeModal()" class="px-3.5 py-2 bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-1.5">
+            <i data-lucide="award" class="w-4 h-4"></i> + Enter Grade
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <select id="gradebook-class-select" onchange="renderGradebookTable()" class="w-full sm:w-96 py-2 px-3 text-xs bg-slate-50 border rounded-lg font-bold text-slate-800"></select>
+        <div class="text-xs text-slate-500 italic">💡 Tip: Teachers can type marks directly into any score input box below to recalculate averages in real time.</div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 overflow-hidden">
+        <table class="w-full text-left text-xs" id="gradebook-matrix-table">
+          <thead class="bg-slate-50 text-slate-700 font-semibold"><tr id="gradebook-header-row"></tr></thead>
+          <tbody id="gradebook-body-rows" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- -------------------------------------------------------
+         VIEW E: DAILY ATTENDANCE
+         ------------------------------------------------------- -->
+    <div id="view-attendance" class="space-y-6 hidden">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <h1 class="text-2xl font-crest font-bold text-blue-950">Daily Attendance Tracker</h1>
+        <p class="text-xs text-slate-500">Track student attendance by subject and date.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-slate-200">
+        <div>
+          <label class="block text-xs font-bold text-slate-600 mb-1">Select Subject</label>
+          <select id="attendance-class-select" onchange="loadAttendanceRoster()" class="w-full py-2 px-3 text-xs bg-slate-50 border rounded-lg font-bold text-slate-800"></select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-600 mb-1">Date</label>
+          <input type="date" value="2026-08-21" class="w-full py-2 px-3 text-xs bg-slate-50 border rounded-lg">
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-600 font-semibold">
+            <tr><th class="p-3.5">Scholar</th><th class="p-3.5">ID</th><th class="p-3.5">Status</th><th class="p-3.5">Actions</th><th class="p-3.5">Remarks</th></tr>
+          </thead>
+          <tbody id="attendance-roster-tbody" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================
+       MODAL 1: ADD / UPLOAD ASSIGNMENT (EXAM, HW, CW, CLASS TEST)
+       ========================================================= -->
+  <div id="add-assignment-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <h3 class="font-crest font-bold text-base flex items-center gap-2">
+          <i data-lucide="file-plus" class="w-5 h-5 text-pink-300"></i> Create Assignment & Upload Worksheet
+        </h3>
+        <button onclick="closeAddAssignmentModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form onsubmit="handleCreateAssignment(event)" class="p-6 overflow-y-auto space-y-4 text-xs">
+        
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Target Subject / Course *</label>
+          <select id="asn-course-select" name="courseId" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold text-slate-800"></select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Assignment Title *</label>
+          <input type="text" name="title" required placeholder="e.g. Mid-Term Kinematics Exam, Chapter 3 Homework" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold text-sm text-blue-950">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Category / Type *</label>
+            <select name="category" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold text-slate-800">
+              <option value="Exam">Exam (Red)</option>
+              <option value="Homework">Homework (Green)</option>
+              <option value="Class Work">Class Work (Blue)</option>
+              <option value="Class Test">Class Test (Pink)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Max Score (Points) *</label>
+            <input type="number" name="maxPoints" required value="100" min="1" max="1000" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Due Date *</label>
+            <input type="date" name="dueDate" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Description / Instructions (Optional)</label>
+          <textarea name="description" rows="2" placeholder="Provide instructions or study notes for students..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg"></textarea>
+        </div>
+
+        <!-- File Upload Section for Worksheets -->
+        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+          <label class="block font-bold text-slate-800">📎 Upload Assignment File / Worksheet</label>
+          <input type="file" id="asn-file-input" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-pink-600 file:text-white hover:file:bg-pink-700 cursor-pointer">
+          <p class="text-[10px] text-slate-400">Attach PDF worksheets, problem sets, exam study guides, or rubrics.</p>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2 border-t border-slate-100">
+          <button type="button" onclick="closeAddAssignmentModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-xs shadow">Save & Post Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 2: BATCH ASSIGNMENT GRADING ROSTER MODAL
+       ========================================================= -->
+  <div id="grade-assignment-roster-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <div>
+          <h3 class="font-crest font-bold text-base flex items-center gap-2" id="roster-modal-title">
+            <i data-lucide="award" class="w-5 h-5 text-pink-300"></i> Grade Assignment Submissions
+          </h3>
+          <p class="text-xs text-pink-200 mt-0.5" id="roster-modal-subtitle">Subject & Max Score</p>
+        </div>
+        <button onclick="closeGradeAssignmentRosterModal()" class="text-slate-300 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-xs">
+        <div class="overflow-x-auto border border-slate-200 rounded-xl">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 text-slate-700 font-semibold">
+              <tr>
+                <th class="p-3">Scholar Name</th>
+                <th class="p-3">Student ID</th>
+                <th class="p-3 text-center">Score (Points)</th>
+                <th class="p-3 text-center">Letter Grade</th>
+                <th class="p-3">Teacher Remarks</th>
+              </tr>
+            </thead>
+            <tbody id="roster-grading-tbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <button onclick="closeGradeAssignmentRosterModal()" class="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-xs shadow">
+            Done Grading
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 3: MANUAL GRADE ENTRY MODAL
+       ========================================================= -->
+  <div id="manual-grade-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <h3 class="text-base font-crest font-bold flex items-center gap-2">
+          <i data-lucide="award" class="w-5 h-5 text-pink-300"></i> Record Student Grade
+        </h3>
+        <button onclick="closeManualGradeModal()" class="text-slate-300 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form onsubmit="handleManualGrade(event)" class="p-6 overflow-y-auto space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Select Student *</label>
+          <select id="grade-student-select" name="studentId" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold text-slate-800"></select>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Select Subject *</label>
+          <select id="grade-course-select" name="classId" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold text-slate-800"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Assessment Type *</label>
+            <select name="assessmentType" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold">
+              <option value="Exam">Exam (40%)</option>
+              <option value="Homework">Homework (20%)</option>
+              <option value="Class Work">Class Work (20%)</option>
+              <option value="Class Test">Class Test (20%)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Grading Term</label>
+            <select name="term" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold">
+              <option value="Term 1" selected>Term 1 (Fall)</option>
+              <option value="Term 2">Term 2 (Spring)</option>
+              <option value="Mid-Term">Mid-Term Assessment</option>
+              <option value="Final Exam">Final Cumulative Assessment</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Score Obtained *</label>
+            <input type="number" step="0.5" min="0" max="100" name="score" required placeholder="e.g. 96" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-bold text-blue-950">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Max Score</label>
+            <input type="number" step="1" name="maxScore" value="100" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Teacher Feedback & Remarks</label>
+          <textarea name="teacherComment" rows="2" placeholder="Teacher observations..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg"></textarea>
+        </div>
+        <div class="pt-2 flex justify-end gap-3 border-t border-slate-100">
+          <button type="button" onclick="closeManualGradeModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white font-bold rounded-xl text-xs shadow">Save Score & Update Gradebook</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL 4: SCHOOL LOGO & LETTERHEAD IMAGE CONFIGURATION
+       ========================================================= -->
+  <div id="letterhead-config-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <h3 class="font-crest font-bold text-base flex items-center gap-2">
+          <i data-lucide="stamp" class="w-5 h-5 text-pink-300"></i> School Logo & Letterhead Image Settings
+        </h3>
+        <button onclick="closeLetterheadConfigModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      
+      <form onsubmit="handleSaveLetterhead(event)" class="p-6 overflow-y-auto space-y-6 text-xs">
+        
+        <!-- 1. School Logo Image Upload Section -->
+        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-blue-950 text-sm flex items-center gap-2">
+              <i data-lucide="image" class="w-4 h-4 text-pink-600"></i> 1. School Logo Image / Crest
+            </h4>
+            <span class="text-[10px] text-slate-500 font-semibold">App Icon & Watermark</span>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <img id="cfg-logo-preview-img" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80" alt="Logo Preview" class="w-16 h-16 rounded-2xl object-cover ring-2 ring-pink-500/40 shadow">
+            <div class="flex-1 space-y-2">
+              <label class="block font-bold text-slate-700">Choose Logo Image File (PNG, JPG, SVG)</label>
+              <input type="file" id="cfg-logo-file-input" accept="image/*" onchange="previewLogoFile(event)" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-900 file:text-white hover:file:bg-blue-800 cursor-pointer">
+              <div>
+                <span class="text-[10px] text-slate-400 font-mono block">Or enter image URL directly:</span>
+                <input type="text" id="cfg-logo-url" name="logoUrl" onchange="previewLogoUrl(this.value)" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Full Letterhead Banner Image Upload Section -->
+        <div class="p-4 bg-pink-50/60 rounded-2xl border border-pink-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-pink-950 text-sm flex items-center gap-2">
+              <i data-lucide="file-image" class="w-4 h-4 text-pink-700"></i> 2. Official Letterhead Image Banner
+            </h4>
+            <span class="text-[10px] text-pink-800 font-bold bg-pink-100 px-2 py-0.5 rounded-full">Printout Header</span>
+          </div>
+
+          <div class="space-y-3">
+            <label class="block font-bold text-slate-700">Upload Full Letterhead Graphic (Header Banner Image)</label>
+            <input type="file" id="cfg-letterhead-file-input" accept="image/*" onchange="previewLetterheadFile(event)" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-pink-600 file:text-white hover:file:bg-pink-700 cursor-pointer">
+            
+            <div class="border-2 border-dashed border-pink-300 rounded-2xl p-2 bg-white flex flex-col items-center justify-center text-center">
+              <img id="cfg-letterhead-preview-img" src="" alt="No Graphic Letterhead Image Uploaded" class="w-full max-h-24 rounded-xl object-cover shadow-sm bg-slate-50">
+              <span class="text-[10px] text-slate-400 mt-1">Live Letterhead Header Graphic Preview</span>
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 bg-white rounded-xl border border-amber-200">
+              <span class="font-bold text-slate-800 text-xs">Use Graphic Letterhead Banner on printed documents</span>
+              <input type="checkbox" id="cfg-use-image-letterhead" name="useImageLetterhead" class="w-4 h-4 text-ada-navy rounded">
+            </div>
+
+            <div>
+              <span class="text-[10px] text-slate-400 font-mono block">Or enter Letterhead Banner image URL:</span>
+              <input type="text" id="cfg-letterhead-image-url" name="letterheadImageUrl" onchange="previewLetterheadUrl(this.value)" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs">
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Typography Fallbacks & Watermark Settings -->
+        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+          <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider">3. Document Text & Watermark</h4>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Header Title</label>
+              <input type="text" id="cfg-header-title" name="headerTitle" class="w-full p-2 bg-white border rounded-lg font-bold">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Sub-Header Text</label>
+              <input type="text" id="cfg-sub-header" name="subHeader" class="w-full p-2 bg-white border rounded-lg">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Official Website / Portal URL</label>
+              <input type="text" id="cfg-website" name="website" value="https://american-dara-academy-1-uyy3.onrender.com" class="w-full p-2 bg-white border border-pink-300 rounded-lg font-bold text-blue-950">
+            </div>
+          </div>
+
+          <!-- Dashboard Background Logo Brightness Slider -->
+          <div class="p-3 bg-white rounded-xl border space-y-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="font-bold text-slate-900 text-xs">Dashboard Background Logo Brightness / Opacity</div>
+                <div class="text-[10px] text-slate-500">Adjust the prominence of the centered background watermark emblem on the dashboard.</div>
+              </div>
+              <span id="cfg-dash-opacity-val" class="font-black text-xs text-blue-950 bg-pink-100 px-2 py-0.5 rounded-lg border border-pink-300">20%</span>
+            </div>
+            <input type="range" id="cfg-dash-opacity-slider" name="dashboardLogoOpacity" min="5" max="60" value="20" step="1"
+              oninput="updateDashboardWatermarkOpacity(this.value)"
+              class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-pink-600">
+          </div>
+
+          <div class="p-3 bg-white rounded-xl border flex items-center justify-between">
+            <div>
+              <div class="font-bold text-slate-900">Print Semi-Transparent Logo Watermark Behind Text</div>
+              <div class="text-[10px] text-slate-500">Automatically superimposes the school logo centered behind document tables.</div>
+            </div>
+            <input type="checkbox" id="cfg-watermark" name="watermarkEnabled" checked class="w-4 h-4 text-pink-600 rounded">
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2 border-t border-slate-100">
+          <button type="button" onclick="closeLetterheadConfigModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-xs shadow">Save Images & Letterhead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Enroll Student Modal -->
+  <div id="enroll-student-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <h3 class="font-crest font-bold text-base flex items-center gap-2">
+          <i data-lucide="user-plus" class="w-5 h-5 text-pink-300"></i> Add Student to Senior High
+        </h3>
+        <button onclick="closeEnrollModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form onsubmit="handleEnrollStudent(event)" class="p-6 overflow-y-auto space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Student ID *</label>
+            <input type="text" id="enroll-student-id" name="studentId" required placeholder="e.g. ASHS-901" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-mono font-bold text-blue-950">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">High School Grade *</label>
+            <select name="grade" id="enroll-student-grade" onchange="autoSyncDivisionFromGrade(this.value)" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-semibold text-slate-800">
+              <option value="9" selected>Grade 9 (Freshman / Senior High 1)</option>
+              <option value="10">Grade 10 (Sophomore / Senior High 2)</option>
+              <option value="11">Grade 11 (Junior / Senior High 3)</option>
+              <option value="12">Grade 12 (Senior / Senior High 4)</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="block font-bold mb-1">First Name *</label><input type="text" name="firstName" required placeholder="First Name" class="w-full p-2.5 bg-slate-50 border rounded-lg"></div>
+          <div><label class="block font-bold mb-1">Last Name *</label><input type="text" name="lastName" required placeholder="Last Name" class="w-full p-2.5 bg-slate-50 border rounded-lg"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold mb-1 text-slate-800">Course / Programme Track *</label>
+            <select name="courseTrack" id="enroll-student-course-track" onchange="updateEnrollSubjectOptionsByCourse(this.value)" class="w-full p-2.5 bg-white border border-pink-300 rounded-lg font-bold text-blue-950">
+              <option value="Business" selected>📊 Business</option>
+              <option value="General Arts">🎨 General Arts</option>
+              <option value="Home Economics">🍳 Home Economics</option>
+            </select>
+            <input type="hidden" name="division" id="enroll-student-division" value="Senior High School">
+          </div>
+          <div><label class="block font-bold mb-1 text-slate-700">Assigned Faculty Advisor</label><select name="assignedTeacherId" id="enroll-student-teacher" class="w-full p-2.5 bg-slate-50 border rounded-lg"></select></div>
+        </div>
+        <div class="p-3.5 bg-pink-50/70 rounded-2xl border border-pink-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-blue-950 text-xs flex items-center gap-1.5">
+              <i data-lucide="book-open" class="w-4 h-4 text-pink-600"></i> Subject Enrolled (Core or Course Elective)
+            </span>
+            <span class="text-[10px] text-pink-800 font-bold bg-pink-100 px-2 py-0.5 rounded-full">Core + Electives</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <label class="block font-bold mb-1 text-slate-700">Select Subject *</label>
+              <select name="enrolledCourseId" id="enroll-student-course" class="w-full p-2.5 bg-white border border-slate-200 rounded-lg font-semibold text-slate-800"></select>
+            </div>
+            <div>
+              <label class="block font-bold mb-1 text-slate-700">Initial Score (%)</label>
+              <input type="number" step="0.5" min="0" max="100" name="initialScore" value="90" class="w-full p-2.5 bg-white border border-slate-200 rounded-lg font-bold text-blue-950">
+            </div>
+          </div>
+        </div>
+        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+          <div class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+            <i data-lucide="users" class="w-4 h-4 text-blue-950"></i> Parent & Guardian Information (for Transcripts & WhatsApp/Gmail Notices)
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold mb-1 text-slate-700">Parent / Guardian Name</label>
+              <input type="text" name="guardianName" placeholder="e.g. Mr. & Mrs. Sow" class="w-full p-2 bg-white border rounded-lg">
+            </div>
+            <div>
+              <label class="block font-bold mb-1 text-slate-700">Relationship</label>
+              <select name="guardianRelation" class="w-full p-2 bg-white border rounded-lg">
+                <option value="Parent">Parent</option>
+                <option value="Father">Father</option>
+                <option value="Mother">Mother</option>
+                <option value="Legal Guardian">Legal Guardian</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold mb-1 text-emerald-800 flex items-center gap-1">
+                <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-600"></i> WhatsApp Mobile Number
+              </label>
+              <input type="tel" name="guardianPhone" placeholder="+221 77 000 0000" class="w-full p-2 bg-white border border-emerald-300 rounded-lg font-mono">
+            </div>
+            <div>
+              <label class="block font-bold mb-1 text-blue-800 flex items-center gap-1">
+                <i data-lucide="mail" class="w-3.5 h-3.5 text-blue-600"></i> Gmail / Parent Email
+              </label>
+              <input type="email" name="guardianEmail" placeholder="parent@gmail.com" class="w-full p-2 bg-white border border-blue-300 rounded-lg">
+            </div>
+          </div>
+        </div>
+        <div class="pt-2 flex justify-end gap-2 border-t">
+          <button type="button" onclick="closeEnrollModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-semibold rounded-xl">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl shadow">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Subject Modal -->
+  <div id="add-course-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <h3 class="text-base font-crest font-bold flex items-center gap-2">
+          <i data-lucide="book-plus" class="w-5 h-5 text-pink-300"></i> Add Senior High Subject
+        </h3>
+        <button onclick="closeAddCourseModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form onsubmit="handleAddCourse(event)" class="p-6 overflow-y-auto space-y-4 text-xs">
+        <!-- Quick Preset Standard Subject Selector -->
+        <div class="p-3 bg-blue-50/70 rounded-2xl border border-blue-200 space-y-1.5">
+          <label class="block font-bold text-blue-950 text-xs flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-pink-600"></i> Standard High School Subject Presets:</span>
+            <span class="text-[10px] text-blue-700 font-bold bg-blue-100 px-2 py-0.5 rounded-full">Auto-Fills Form</span>
+          </label>
+          <select onchange="handleCoursePresetSelect(this.value)" class="w-full p-2 bg-white border border-pink-300 rounded-lg text-xs font-bold text-blue-950">
+            <option value="">-- Choose a standard Senior High subject or type custom below --</option>
+            <optgroup label="--- CORE SUBJECTS (MATHS, ENGLISH, SOCIAL, SCIENCE) ---">
+              <option value="Mathematics (Core)|MATH-C|Core Subject|All Courses">Mathematics (Core) (MATH-C)</option>
+              <option value="English Language|ENG-C|Core Subject|All Courses">English Language (ENG-C)</option>
+              <option value="Social Studies|SOC-C|Core Subject|All Courses">Social Studies (SOC-C)</option>
+              <option value="Integrated Science|SCI-C|Core Subject|All Courses">Integrated Science (SCI-C)</option>
+            </optgroup>
+            <optgroup label="--- 1. BUSINESS PROGRAMME ELECTIVES ---">
+              <option value="Financial Accounting|ACC-101|Elective|Business">Financial Accounting (ACC-101)</option>
+              <option value="Business Management|BM-101|Elective|Business">Business Management (BM-101)</option>
+              <option value="Cost Accounting|COST-101|Elective|Business">Cost Accounting (COST-101)</option>
+              <option value="Economics|ECON-101|Elective|Business">Economics (ECON-101)</option>
+              <option value="Elective Mathematics|EMATH-101|Elective|Business">Elective Mathematics (EMATH-101)</option>
+            </optgroup>
+            <optgroup label="--- 2. GENERAL ARTS PROGRAMME ELECTIVES ---">
+              <option value="Literature in English|LIT-101|Elective|General Arts">Literature in English (LIT-101)</option>
+              <option value="Government|GOV-101|Elective|General Arts">Government (GOV-101)</option>
+              <option value="History|HIST-101|Elective|General Arts">History (HIST-101)</option>
+              <option value="Geography|GEOG-101|Elective|General Arts">Geography (GEOG-101)</option>
+              <option value="Christian Religious Studies (CRS)|CRS-101|Elective|General Arts">Christian Religious Studies (CRS-101)</option>
+              <option value="French Language|FREN-101|Elective|General Arts">French Language (FREN-101)</option>
+            </optgroup>
+            <optgroup label="--- 3. HOME ECONOMICS PROGRAMME ELECTIVES ---">
+              <option value="Food and Nutrition|FN-101|Elective|Home Economics">Food and Nutrition (FN-101)</option>
+              <option value="Clothing and Textiles|CT-101|Elective|Home Economics">Clothing and Textiles (CT-101)</option>
+              <option value="Management in Living|ML-101|Elective|Home Economics">Management in Living (ML-101)</option>
+              <option value="General Knowledge in Art (GKA)|GKA-101|Elective|Home Economics">General Knowledge in Art (GKA-101)</option>
+              <option value="Biology|BIO-101|Elective|Home Economics">Biology (BIO-101)</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-1 text-slate-700">Subject Name *</label>
+          <input type="text" id="add-course-name" name="name" required placeholder="e.g. Financial Accounting, Food & Nutrition, English Language" class="w-full p-2.5 bg-slate-50 border rounded-lg font-bold text-blue-950">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold mb-1 text-slate-700">Course / Programme Track *</label>
+            <select name="track" id="add-course-track" required class="w-full p-2.5 bg-slate-50 border rounded-lg font-bold text-blue-950">
+              <option value="All Courses">All Courses (Core Subject)</option>
+              <option value="Business">Business</option>
+              <option value="General Arts">General Arts</option>
+              <option value="Home Economics">Home Economics</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold mb-1 text-slate-700">Subject Category *</label>
+            <select name="category" id="add-course-category" required class="w-full p-2.5 bg-slate-50 border rounded-lg font-bold text-slate-800">
+              <option value="Core Subject">Core Subject (Maths, English, Social, Science)</option>
+              <option value="Elective">Elective Course</option>
+            </select>
+            <input type="hidden" name="division" value="Senior High School">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="block font-bold mb-1 text-slate-700">Subject Code</label><input type="text" id="add-course-code" name="code" placeholder="e.g. ACC-101" class="w-full p-2.5 bg-slate-50 border rounded-lg uppercase font-mono font-bold"></div>
+          <div><label class="block font-bold mb-1 text-slate-700">Assigned Faculty Advisor</label><select id="course-teacher-select" name="teacherId" class="w-full p-2.5 bg-slate-50 border rounded-lg"></select></div>
+        </div>
+        <div class="pt-2 flex justify-end gap-3 border-t">
+          <button type="button" onclick="closeAddCourseModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-semibold rounded-xl">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl shadow">Save Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dedicated Admin Profile & Crest Logo Modal -->
+  <div id="admin-profile-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-pink-400/20 border border-pink-400/40 flex items-center justify-center text-pink-300">
+            <i data-lucide="shield" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="font-crest font-bold text-base">Admin Profile & Crest Logo</h3>
+            <p class="text-xs text-pink-200">Change your crest logo, photo, name & phone</p>
+          </div>
+        </div>
+        <button onclick="closeAdminProfileModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleSaveAdminProfile(event)" class="p-6 overflow-y-auto space-y-5 text-xs">
+        
+        <!-- Avatar / Crest Logo Interactive Preview & Picker -->
+        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center gap-4">
+          <div class="relative group cursor-pointer" onclick="document.getElementById('admin-avatar-file-input').click()">
+            <img id="admin-modal-avatar-preview" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80" alt="Crest Logo Preview" class="w-20 h-20 rounded-2xl object-cover ring-4 ring-pink-400/80 shadow-md">
+            <div class="absolute inset-0 bg-black/40 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition text-white text-[10px] font-bold gap-1">
+              <i data-lucide="camera" class="w-4 h-4"></i>
+              <span>Change</span>
+            </div>
+          </div>
+          <div class="space-y-2 flex-1 text-center sm:text-left">
+            <div class="font-bold text-slate-800 text-sm">Crest Logo / Profile Photo</div>
+            <p class="text-slate-500 text-[11px]">Upload your custom school crest logo or avatar image directly from your computer:</p>
+            <div class="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
+              <label class="px-3 py-1.5 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl shadow-sm text-xs cursor-pointer inline-flex items-center gap-1.5 transition">
+                <i data-lucide="upload" class="w-3.5 h-3.5 text-pink-300"></i>
+                <span>📁 Upload Image File</span>
+                <input type="file" id="admin-avatar-file-input" accept="image/*" onchange="previewAdminAvatarFile(event)" class="hidden">
+              </label>
+              <button type="button" onclick="resetAdminAvatarToDefaultLogo()" class="px-2.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-xs transition">
+                Reset to Logo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Or Image URL -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Or Paste Image URL (Web Link)</label>
+          <input type="url" id="admin-modal-avatar-url" placeholder="https://... image link" oninput="previewAdminAvatarUrl(this.value)" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl font-mono text-xs">
+        </div>
+
+        <!-- Checkbox: Apply as main School Logo everywhere -->
+        <div class="p-3 bg-pink-50 rounded-xl border border-pink-200 flex items-start gap-2.5">
+          <input type="checkbox" id="admin-modal-sync-school-logo" checked class="mt-0.5 w-4 h-4 rounded text-pink-600 focus:ring-pink-500 border-pink-300">
+          <label for="admin-modal-sync-school-logo" class="font-bold text-pink-950 cursor-pointer leading-snug">
+            Also update the official School Logo across the whole school (Top header, dashboard background watermark, and printable transcripts).
+          </label>
+        </div>
+
+        <!-- Personal Info Fields -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">Full Name *</label>
+            <input type="text" id="admin-modal-name" required value="Mr. Abdul Nasir Musah" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold text-blue-950">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">WhatsApp / Phone Number</label>
+            <input type="text" id="admin-modal-phone" value="+19174788477" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono">
+          </div>
+        </div>
+
+        <div class="pt-3 border-t flex items-center justify-between gap-3">
+          <button type="button" onclick="closeAdminProfileModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-semibold rounded-xl">Cancel</button>
+          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <span>Save Crest Logo & Profile</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dedicated Create Teacher Account Modal -->
+  <div id="create-teacher-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-pink-400/20 border border-pink-400/40 flex items-center justify-center text-pink-300">
+            <i data-lucide="user-plus" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="font-crest font-bold text-base">Create Teacher Login Account</h3>
+            <p class="text-xs text-pink-200">Set username, password & send login details</p>
+          </div>
+        </div>
+        <button onclick="closeCreateTeacherModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form onsubmit="handleCreateTeacherSubmit(event)" class="p-6 overflow-y-auto space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-800 mb-1">Teacher Full Name *</label>
+          <input type="text" id="teacher-form-name" required placeholder="e.g. Ousmane Diop" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">Division *</label>
+            <select id="teacher-form-division" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold">
+              <option value="Senior High School" selected>Senior High School (Grades 9-12)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">Subject / Curriculum Area *</label>
+            <input type="text" id="teacher-form-subject" required placeholder="e.g. Mathematics, Science, French" class="w-full p-2.5 bg-slate-50 border rounded-xl">
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+          <div class="font-bold text-blue-950 text-xs uppercase tracking-wider flex items-center gap-1.5">
+            <i data-lucide="key" class="w-4 h-4 text-pink-500"></i> Teacher Login Credentials
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Username / Login Email *</label>
+            <input type="email" id="teacher-form-email" required placeholder="e.g. odiop@anisahigh.edu or teacher@gmail.com" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl font-mono text-xs text-blue-950 font-bold">
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="block font-bold text-slate-700">Login Password *</label>
+              <button type="button" onclick="generateRandomTeacherPassword()" class="text-[10px] text-pink-600 font-bold hover:underline flex items-center gap-1">
+                <i data-lucide="sparkles" class="w-3 h-3"></i> Generate Random Password
+              </button>
+            </div>
+            <div class="relative">
+              <input type="text" id="teacher-form-password" required value="Teacher2026!" placeholder="Create password" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl font-mono text-xs font-bold text-slate-900 pr-10">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-800 mb-1">Teacher WhatsApp Phone Number (Optional for 1-Click Send)</label>
+          <input type="text" id="teacher-form-phone" placeholder="e.g. +221 77 000 0000 or +1 917 000 0000" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono">
+        </div>
+
+        <div class="pt-3 border-t flex items-center justify-between gap-3">
+          <button type="button" onclick="closeCreateTeacherModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-semibold rounded-xl">Cancel</button>
+          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-4 h-4 text-pink-200"></i>
+            <span>Create Teacher Account</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Director Space Modal -->
+  <div id="director-staff-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <h3 class="font-crest font-bold text-base flex items-center gap-2">
+          <i data-lucide="shield" class="w-5 h-5 text-pink-300"></i> School Director Space & Staff Credentials
+        </h3>
+        <button onclick="closeDirectorStaffModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="p-6 overflow-y-auto space-y-6 text-xs">
+        
+        <!-- Top Action Bar -->
+        <div class="flex items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div>
+            <h4 class="font-bold text-slate-900 text-sm">Faculty & Teacher Accounts</h4>
+            <p class="text-[11px] text-slate-500">Manage login credentials and share passwords directly with faculty</p>
+          </div>
+          <button onclick="openCreateTeacherModal()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white font-bold rounded-xl shadow flex items-center gap-1.5 transition">
+            <i data-lucide="user-plus" class="w-4 h-4 text-pink-200"></i> + Add Teacher Account
+          </button>
+        </div>
+
+        <!-- Multi-Device Sync & Database Transfer Section -->
+        <div class="p-4 bg-gradient-to-br from-blue-50 to-pink-50/50 rounded-2xl border border-pink-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-blue-950 text-xs flex items-center gap-1.5 uppercase tracking-wide">
+              <i data-lucide="cloud" class="w-4 h-4 text-blue-600"></i> Multi-Device Cloud Sync & Backup
+            </span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-pink-100 text-pink-800">1-Click Transfer</span>
+          </div>
+          <p class="text-slate-600 text-[11px] leading-relaxed">
+            Transfer all courses, grades, students, and staff data between any laptops or phones:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button type="button" onclick="exportSchoolDatabaseFile()" class="p-2.5 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl shadow flex items-center justify-center gap-1.5 transition">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-pink-300"></i>
+              <span>📥 Download Database Backup</span>
+            </button>
+            <label class="p-2.5 bg-white hover:bg-slate-50 border border-blue-300 text-blue-900 font-bold rounded-xl shadow-sm flex items-center justify-center gap-1.5 cursor-pointer transition text-center">
+              <i data-lucide="upload" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>📤 Restore / Load on Other Device</span>
+              <input type="file" accept=".json" onchange="importSchoolDatabaseFile(event)" class="hidden">
+            </label>
+          </div>
+        </div>
+
+        <!-- Active Staff & Credentials Directory Table -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Active Staff & Teacher Logins:</h4>
+            <span class="text-[11px] text-slate-500 font-medium">Click WhatsApp to send login info</span>
+          </div>
+          <div class="border rounded-2xl overflow-hidden bg-white shadow-sm">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 font-semibold text-slate-700">
+                <tr>
+                  <th class="p-3">Staff / Teacher</th>
+                  <th class="p-3">Role & Division</th>
+                  <th class="p-3">Username / Email</th>
+                  <th class="p-3">Password</th>
+                  <th class="p-3 text-right">Send / Actions</th>
+                </tr>
+              </thead>
+              <tbody id="director-staff-tbody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: BROADCAST & SEND INFORMATION TO ALL PARENTS AT ONCE
+       (WHATSAPP & GMAIL MASS DISPATCH)
+       ========================================================= -->
+  <div id="broadcast-parents-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-pink-400/20 border border-pink-400/40 flex items-center justify-center text-pink-300">
+            <i data-lucide="megaphone" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h3 class="font-crest font-bold text-base text-white">Notice & Announcement to All Parents</h3>
+            <p class="text-xs text-pink-200">Broadcast information to all parents at once via WhatsApp or Gmail</p>
+          </div>
+        </div>
+        <button onclick="closeBroadcastParentsModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 text-xs text-slate-700">
+        
+        <!-- Target Selection & Quick Template Picker -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">Target High School Grade</label>
+            <select id="broadcast-target-division" onchange="renderBroadcastRecipientsPreview()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-blue-950">
+              <option value="all">All Senior High School Parents (Grades 9 - 12)</option>
+              <option value="Grade 9">Grade 9 Parents (Senior High 1)</option>
+              <option value="Grade 10">Grade 10 Parents (Senior High 2)</option>
+              <option value="Grade 11">Grade 11 Parents (Senior High 3)</option>
+              <option value="Grade 12">Grade 12 Parents (Senior High 4)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">Quick Message Template</label>
+            <select id="broadcast-template-select" onchange="applyBroadcastTemplate(this.value)" class="w-full p-2.5 bg-pink-50 border border-pink-200 rounded-xl font-semibold text-pink-950">
+              <option value="report_cards">📄 Official Transcripts & Report Cards Ready</option>
+              <option value="conference">🤝 Parent-Teacher Academic Conference</option>
+              <option value="reopening">🏫 School Calendar & Reopening Notice</option>
+              <option value="urgent">⚠️ Urgent School Announcement</option>
+              <option value="custom">✏️ Custom Message</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Announcement Subject & Content -->
+        <div class="space-y-3">
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">Announcement Subject / Title *</label>
+            <input type="text" id="broadcast-subject-input" value="Anisa Senior High School - Academic Transcripts & Term Report Cards Ready" class="w-full p-2.5 bg-white border border-slate-300 rounded-xl font-bold text-blue-950 text-xs">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-800 mb-1">Message Content *</label>
+            <textarea id="broadcast-message-input" rows="4" class="w-full p-3 bg-white border border-slate-300 rounded-xl text-xs leading-relaxed font-sans" placeholder="Type announcement for parents..."></textarea>
+          </div>
+        </div>
+
+        <!-- Action Dispatch Section -->
+        <div class="p-4 bg-gradient-to-br from-blue-50 to-pink-50/40 rounded-2xl border border-pink-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-900 text-xs uppercase tracking-wider">Mass Dispatch to Parents:</span>
+            <span class="text-xs font-bold text-pink-800 bg-pink-100 px-2.5 py-0.5 rounded-full" id="broadcast-recipient-count">0 Parents Targeted</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            
+            <!-- Send to ALL via Gmail at Once -->
+            <button onclick="sendBroadcastViaGmail()" class="p-4 bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white rounded-2xl font-bold flex items-center justify-center gap-2.5 shadow-lg transition text-xs">
+              <i data-lucide="mail" class="w-5 h-5 text-pink-300"></i>
+              <div class="text-left">
+                <div class="font-extrabold text-sm">Send to All via Gmail</div>
+                <div class="text-[10px] text-blue-100 font-normal">Opens Gmail with all parent emails in BCC</div>
+              </div>
+            </button>
+
+            <!-- Send to ALL via WhatsApp Broadcast Queue -->
+            <button onclick="openWhatsAppBroadcastQueue()" class="p-4 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white rounded-2xl font-bold flex items-center justify-center gap-2.5 shadow-lg transition text-xs">
+              <i data-lucide="message-circle" class="w-5 h-5 text-pink-200"></i>
+              <div class="text-left">
+                <div class="font-extrabold text-sm">Send via WhatsApp</div>
+                <div class="text-[10px] text-pink-100 font-normal">1-click WhatsApp message to parents</div>
+              </div>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Parent Contact Directory Preview & Individual 1-Click WhatsApp Trigger -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-slate-800 text-xs uppercase">Targeted Parent Directory & WhatsApp Quick Links:</h4>
+          </div>
+          <div class="border border-slate-200 rounded-2xl overflow-hidden max-h-56 overflow-y-auto bg-white">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 font-semibold text-slate-700 sticky top-0">
+                <tr>
+                  <th class="p-2.5">Student</th>
+                  <th class="p-2.5">Parent / Guardian</th>
+                  <th class="p-2.5">WhatsApp / Phone</th>
+                  <th class="p-2.5">Gmail</th>
+                  <th class="p-2.5 text-right">Instant Action</th>
+                </tr>
+              </thead>
+              <tbody id="broadcast-parents-tbody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-2 border-t">
+          <button onclick="closeBroadcastParentsModal()" class="px-5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">
+            Close
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: SHARE PORTAL WITH TEACHERS, DEANS & STAFF WORLDWIDE
+       ========================================================= -->
+  <div id="share-portal-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <div>
+          <h3 class="font-crest font-bold text-base flex items-center gap-2">
+            <i data-lucide="share-2" class="w-5 h-5 text-pink-300"></i> Share School Portal with Teachers & Staff
+          </h3>
+          <p class="text-xs text-pink-200 mt-0.5">Send login link to laptops, iPhones, and Android devices anywhere worldwide</p>
+        </div>
+        <button onclick="closeSharePortalModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 text-xs text-slate-700">
+        
+        <!-- Live Worldwide Web Link Card -->
+        <div class="p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-emerald-950 text-xs flex items-center gap-1.5 uppercase tracking-wide">
+              <i data-lucide="globe" class="w-4 h-4 text-emerald-600"></i> Worldwide Online Link (Any Wi-Fi / 4G / 5G)
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-200 text-emerald-800 animate-pulse">● LIVE WORLDWIDE</span>
+          </div>
+
+          <p class="text-slate-600 text-[11px] leading-relaxed">
+            Teachers, Deans, and Staff can paste this link into their laptops or phones to log in directly:
+          </p>
+
+          <div class="flex items-center gap-2">
+            <input type="text" id="share-portal-url-input" readonly value="https://american-dara-academy-1-uyy3.onrender.com" class="w-full p-2.5 bg-white border border-emerald-300 rounded-xl font-mono text-xs text-blue-950 font-black shadow-sm">
+            <button onclick="copySharePortalLink()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow transition shrink-0 flex items-center gap-1.5">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Link
+            </button>
+          </div>
+        </div>
+
+        <!-- 1-Click Instant Sharing Options -->
+        <div class="space-y-2">
+          <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider">1-Click Send Invitation to Staff:</h4>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            
+            <!-- WhatsApp Share Button -->
+            <button onclick="sharePortalViaWhatsApp()" class="p-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow transition">
+              <i data-lucide="message-circle" class="w-4 h-4 text-emerald-200"></i>
+              <span>Send via WhatsApp</span>
+            </button>
+
+            <!-- Email Share Button -->
+            <button onclick="sharePortalViaEmail()" class="p-3.5 bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white rounded-2xl font-bold flex items-center justify-center gap-2 shadow transition">
+              <i data-lucide="mail" class="w-4 h-4 text-pink-300"></i>
+              <span>Send via Email</span>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- QR Code for Mobile Scanning -->
+        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center gap-4">
+          <img id="share-qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Famerican-dara-academy-1-uyy3.onrender.com" alt="Staff QR Login" class="w-24 h-24 rounded-xl border bg-white p-1 shadow-sm shrink-0">
+          <div class="space-y-1 text-center sm:text-left">
+            <div class="font-bold text-slate-900 text-xs">📷 Instant Phone QR Code Scanner</div>
+            <p class="text-[11px] text-slate-500 leading-relaxed">
+              Staff members can open their phone camera, point it at this QR code on your screen or printed sheet, and immediately open their gradebook.
+            </p>
+          </div>
+        </div>
+
+        <!-- Official Online Domain Card -->
+        <div class="p-3 bg-white rounded-xl border flex items-center justify-between text-[11px] text-slate-500">
+          <span>🌐 24/7 Official Live Website:</span>
+          <span class="font-mono font-bold text-blue-950" id="share-lan-ip-display">https://american-dara-academy-1-uyy3.onrender.com</span>
+        </div>
+
+        <div class="flex justify-end pt-2 border-t">
+          <button onclick="closeSharePortalModal()" class="px-5 py-2 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl shadow text-xs">
+            Done
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="remote-access-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-5 text-white flex items-center justify-between border-b border-pink-500/30">
+        <h3 class="font-crest font-bold text-base flex items-center gap-2">
+          <i data-lucide="smartphone" class="w-5 h-5 text-pink-300"></i> Mobile Phone & Remote Login
+        </h3>
+        <button onclick="closeRemoteAccessModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-5 text-xs text-slate-700">
+        
+        <!-- Option A: Worldwide Public HTTPS Link -->
+        <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-emerald-900 text-xs uppercase tracking-wider flex items-center gap-1.5">
+              <i data-lucide="globe" class="w-4 h-4 text-emerald-600"></i> 1. Live Public Link (Any Wi-Fi / 4G / 5G)
+            </span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-200 text-emerald-800">ONLINE 24/7</span>
+          </div>
+
+          <p class="text-[11px] text-emerald-950">
+            Open this secure link on your iPhone, Android, or any computer on <b>any different Wi-Fi or mobile data network anywhere</b>:
+          </p>
+
+          <div class="flex items-center gap-2">
+            <input type="text" id="public-remote-url-input" readonly value="https://american-dara-academy-1-uyy3.onrender.com" class="w-full p-2.5 bg-white border border-emerald-300 rounded-xl font-mono text-xs text-blue-950 font-bold shadow-sm">
+            <button onclick="copyRemoteUrl()" class="px-3 py-2.5 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl shadow transition shrink-0 flex items-center gap-1">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+            </button>
+          </div>
+
+          <!-- Live QR Code -->
+          <div class="bg-white p-3 rounded-2xl border border-emerald-200 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+            <img id="remote-qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Famerican-dara-academy-1-uyy3.onrender.com" alt="Scan QR Code" class="w-24 h-24 rounded-xl border p-1 shadow-sm shrink-0">
+            <div>
+              <div class="font-bold text-slate-900 text-xs">📷 Scan QR Code with Phone Camera</div>
+              <div class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                Open your phone's Camera app and point it at the QR code to log into Anisa Senior High School instantly from your mobile phone!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Option B: Direct Web Portal -->
+        <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5">
+          <div class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+            <i data-lucide="shield-check" class="w-4 h-4 text-blue-900"></i> Official High School Address:
+          </div>
+          <div class="font-mono text-xs text-blue-950 font-bold bg-white p-2 rounded-lg border">
+            https://american-dara-academy-1-uyy3.onrender.com
+          </div>
+          <div class="text-[10px] text-slate-400">Available 24/7 on Render cloud hosting worldwide.</div>
+        </div>
+
+        <div class="flex justify-end pt-2 border-t">
+          <button onclick="closeRemoteAccessModal()" class="px-5 py-2 bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-xl shadow text-xs">
+            Done
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal with Interactive School Logo Changer -->
+  <div id="login-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+      <div class="bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 p-6 text-white text-center space-y-2 relative border-b border-pink-500/30">
+        
+        <!-- Interactive Logo Changer on Sign In Screen -->
+        <div class="relative inline-block group cursor-pointer" onclick="document.getElementById('login-logo-file-input').click()" title="Click to Change School Logo on Sign-In Screen">
+          <img id="login-modal-logo" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80" alt="Academy Logo" class="w-16 h-16 rounded-2xl mx-auto ring-4 ring-pink-400/60 object-cover shadow-xl group-hover:scale-105 transition">
+          <div class="absolute inset-0 bg-black/50 rounded-2xl opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition text-pink-300 text-[10px] font-bold">
+            <i data-lucide="camera" class="w-4 h-4 mb-0.5"></i>
+            <span>Change</span>
+          </div>
+          <input type="file" id="login-logo-file-input" accept="image/*" onchange="handleLoginModalLogoUpload(event)" class="hidden">
+        </div>
+
+        <div>
+          <button type="button" onclick="document.getElementById('login-logo-file-input').click()" class="text-[10px] text-pink-300 hover:text-pink-200 font-bold underline inline-flex items-center gap-1">
+            <i data-lucide="upload" class="w-3 h-3"></i> Change Logo
+          </button>
+        </div>
+
+        <h3 class="font-crest font-bold text-lg text-white" id="login-modal-school-name">Anisa Senior High School</h3>
+        <p class="text-xs text-pink-200">Senior High Faculty & Staff Portal Login</p>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)" class="p-6 space-y-4 text-xs">
+        <div><label class="block font-bold text-slate-700 mb-1">Email / Username *</label><input type="email" id="login-email" required placeholder="anisa2009@gmail.com" class="w-full p-2.5 bg-slate-50 border rounded-lg"></div>
+        <div><label class="block font-bold text-slate-700 mb-1">Password *</label><input type="password" id="login-password" required placeholder="••••••••" class="w-full p-2.5 bg-slate-50 border rounded-lg"></div>
+        <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-700 hover:to-pink-700 text-white font-bold rounded-xl shadow-lg transition">Sign In to Portal</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Print Modal -->
+  <div id="print-reports-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+      <div class="bg-slate-100 p-4 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-3 no-print">
+        <div>
+          <span class="font-bold text-xs text-slate-800">Official Document Print & Parent Dispatch Preview</span>
+          <div class="text-[10px] text-slate-500" id="print-modal-parent-info">Parent: - | Phone: - | Email: -</div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- WhatsApp Transcript to Parent Button -->
+          <button onclick="sendCurrentTranscriptViaWhatsApp()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow flex items-center gap-1.5 transition">
+            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-200"></i> WhatsApp to Parent
+          </button>
+          <!-- Gmail Transcript to Parent Button -->
+          <button onclick="sendCurrentTranscriptViaGmail()" class="px-3.5 py-2 bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white font-bold rounded-xl text-xs shadow flex items-center gap-1.5 transition">
+            <i data-lucide="mail" class="w-4 h-4 text-pink-300"></i> Gmail to Parent
+          </button>
+          <!-- Print Button -->
+          <button onclick="triggerOfficialDocumentPrint()" class="px-3.5 py-2 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-xs shadow flex items-center gap-1.5">
+            <i data-lucide="printer" class="w-4 h-4"></i> Print / PDF
+          </button>
+          <button onclick="closePrintReportsModal()" class="px-3 py-2 bg-slate-200 font-bold rounded-xl text-xs text-slate-700">Close</button>
+        </div>
+      </div>
+      <div class="p-8 overflow-y-auto print-container watermark-container">
+        
+        <div class="print-document-content space-y-6">
+          
+          <!-- Mode 1: Graphic Letterhead Image Banner -->
+          <div id="print-letterhead-image-container" class="border-b-2 border-blue-900 pb-3 hidden">
+            <img id="print-graphic-letterhead-img" src="" alt="Official Letterhead Banner" class="w-full max-h-32 object-cover rounded-xl shadow-sm">
+          </div>
+
+          <!-- Mode 2: Typography Letterhead (Fallback) -->
+          <div id="print-letterhead-text-container" class="border-b-2 border-blue-900 pb-4 text-center space-y-2">
+            <img id="print-letterhead-logo" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-2xl mx-auto object-cover ring-2 ring-pink-500/40">
+            <h1 class="font-crest font-extrabold text-2xl text-blue-950" id="print-header-title">ANISA SENIOR HIGH SCHOOL</h1>
+            <p class="text-xs font-bold text-pink-700 uppercase tracking-widest" id="print-sub-header">SENIOR HIGH SCHOOL • GRADES 9 - 12</p>
+            <div class="text-[10px] text-slate-500" id="print-address">Route des Almadies Campus, Dakar</div>
+            <div class="text-[10px] text-slate-500" id="print-contact">Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com | Web: <span class="font-bold text-blue-900">american-dara-academy-1-uyy3.onrender.com</span></div>
+          </div>
+
+          <div id="print-report-body" class="space-y-4 text-xs"></div>
+
+          <div class="pt-8 border-t grid grid-cols-2 gap-8 text-center text-xs">
+            <div><div class="h-12 border-b"></div><div class="font-bold mt-1">Academic Dean Signature</div><div class="text-[10px] text-slate-400">Office of Academic Affairs</div></div>
+            <div><div class="h-12 border-b"></div><div class="font-bold mt-1" id="print-director-signature-name">Mr. Abdul Nasir Musah</div><div class="text-[10px] text-slate-400">Head of School / Principal</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none no-print"></div>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-slate-300 text-xs py-6 border-t border-pink-500/30 no-print mt-auto">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="font-crest font-bold text-white tracking-wider">ANISA SENIOR HIGH SCHOOL</span>
+        <p class="text-[11px] text-pink-200/80">Senior High School (Grades 9 - 12) • Excellence, Leadership & Integrity</p>
+      </div>
+      <div class="flex items-center gap-3 text-[11px] text-slate-300">
+        <a href="https://american-dara-academy-1-uyy3.onrender.com" target="_blank" class="hover:text-pink-400 font-bold transition flex items-center gap-1">
+          <i data-lucide="globe" class="w-3.5 h-3.5 text-pink-400"></i> american-dara-academy-1-uyy3.onrender.com
+        </a>
+        <span class="text-slate-600">|</span>
+        <span class="text-slate-400">GradeLink SIS Engine</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
