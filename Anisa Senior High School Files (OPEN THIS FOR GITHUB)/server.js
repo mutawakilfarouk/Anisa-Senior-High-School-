@@ -13,7 +13,7 @@ if (!fs.existsSync(DATA_DIR)) {
 }
 
 // Automatic Tunnel & Network State
-let activePublicUrl = 'https://american-dara-academy-1-uyy3.onrender.com';
+let activePublicUrl = 'https://anisa-senior-high-school-1.onrender.com';
 let tunnelProcess = null;
 
 function getLocalIpAddress() {
@@ -119,6 +119,7 @@ const STANDARD_HIGH_SCHOOL_COURSES = [
   { id: "CRS-ART-GOV", name: "Government", code: "GOV-101", category: "Elective", track: "General Arts", division: "Senior High School" },
   { id: "CRS-ART-HIST", name: "History", code: "HIST-101", category: "Elective", track: "General Arts", division: "Senior High School" },
   { id: "CRS-ART-GEOG", name: "Geography", code: "GEOG-101", category: "Elective", track: "General Arts", division: "Senior High School" },
+  { id: "CRS-ART-IRS", name: "Islamic Religious Studies (IRS)", code: "IRS-101", category: "Elective", track: "General Arts", division: "Senior High School" },
   { id: "CRS-ART-CRS", name: "Christian Religious Studies (CRS)", code: "CRS-101", category: "Elective", track: "General Arts", division: "Senior High School" },
   { id: "CRS-ART-FREN", name: "French Language", code: "FREN-101", category: "Elective", track: "General Arts", division: "Senior High School" },
 
@@ -138,16 +139,16 @@ const CLEAN_SCHOOL_DATA = {
     address: "Route des Almadies Campus, Dakar",
     phone: "+19174788477",
     email: "anisa2009@gmail.com",
-    website: "american-dara-academy-1-uyy3.onrender.com",
+    website: "anisa-senior-high-school-1.onrender.com",
     logoUrl: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80",
     letterhead: {
       useImageLetterhead: false,
       letterheadImageUrl: "",
       headerTitle: "ANISA SENIOR HIGH SCHOOL",
-      subHeader: "SENIOR HIGH SCHOOL • GRADES 9 - 12",
+      subHeader: "SENIOR HIGH SCHOOL • GRADES 10 - 12",
       accreditation: "Accredited by WASC & Ministry of National Education",
       address: "Route des Almadies Campus, Dakar",
-      contact: "Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com | Web: american-dara-academy-1-uyy3.onrender.com",
+      contact: "Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com",
       watermarkEnabled: false,
       watermarkOpacity: 0,
       dashboardLogoOpacity: 0
@@ -171,7 +172,7 @@ const CLEAN_SCHOOL_DATA = {
       id: "DIR-001",
       name: "Mr. Abdul Nasir Musah",
       role: "DIRECTOR",
-      division: "Senior High School (Grades 9-12)",
+      division: "Senior High School (Grades 10-12)",
       title: "Head of School / Principal",
       email: "anisa2009@gmail.com",
       password: "admin",

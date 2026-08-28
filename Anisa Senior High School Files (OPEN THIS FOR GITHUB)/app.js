@@ -37,6 +37,7 @@ const STANDARD_HIGH_SCHOOL_COURSES = [
   { id: "CRS-ART-GOV", name: "Government", code: "GOV-101", category: "Elective", track: "General Arts", division: "Senior High School" },
   { id: "CRS-ART-HIST", name: "History", code: "HIST-101", category: "Elective", track: "General Arts", division: "Senior High School" },
   { id: "CRS-ART-GEOG", name: "Geography", code: "GEOG-101", category: "Elective", track: "General Arts", division: "Senior High School" },
+  { id: "CRS-ART-IRS", name: "Islamic Religious Studies (IRS)", code: "IRS-101", category: "Elective", track: "General Arts", division: "Senior High School" },
   { id: "CRS-ART-CRS", name: "Christian Religious Studies (CRS)", code: "CRS-101", category: "Elective", track: "General Arts", division: "Senior High School" },
   { id: "CRS-ART-FREN", name: "French Language", code: "FREN-101", category: "Elective", track: "General Arts", division: "Senior High School" },
 
@@ -56,16 +57,16 @@ const CLEAN_SEED_DATA = {
     address: "Route des Almadies Campus, Dakar",
     phone: "+19174788477",
     email: "anisa2009@gmail.com",
-    website: "american-dara-academy-1-uyy3.onrender.com",
+    website: "anisa-senior-high-school-1.onrender.com",
     logoUrl: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80",
     letterhead: {
       useImageLetterhead: false,
       letterheadImageUrl: "",
       headerTitle: "ANISA SENIOR HIGH SCHOOL",
-      subHeader: "SENIOR HIGH SCHOOL • GRADES 9 - 12",
+      subHeader: "SENIOR HIGH SCHOOL • GRADES 10 - 12",
       accreditation: "Accredited by WASC & Ministry of National Education",
       address: "Route des Almadies Campus, Dakar",
-      contact: "Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com | Web: american-dara-academy-1-uyy3.onrender.com",
+      contact: "Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com",
       watermarkEnabled: false,
       watermarkOpacity: 0,
       dashboardLogoOpacity: 0
@@ -76,7 +77,7 @@ const CLEAN_SEED_DATA = {
       id: "DIR-001",
       name: "Mr. Abdul Nasir Musah",
       role: "DIRECTOR",
-      division: "Senior High School (Grades 9-12)",
+      division: "Senior High School (Grades 10-12)",
       title: "Head of School / Principal",
       email: "anisa2009@gmail.com",
       password: "admin",
@@ -141,7 +142,7 @@ function sanitizeStaffData() {
       id: "DIR-001",
       name: "Mr. Abdul Nasir Musah",
       role: "DIRECTOR",
-      division: "Senior High School (Grades 9-12)",
+      division: "Senior High School (Grades 10-12)",
       title: "Head of School / Principal",
       email: "anisa2009@gmail.com",
       password: "admin",
@@ -151,17 +152,19 @@ function sanitizeStaffData() {
     schoolData.staff.unshift(mainDirector);
   } else {
     mainDirector.name = "Mr. Abdul Nasir Musah";
-    mainDirector.division = "Senior High School (Grades 9-12)";
+    mainDirector.division = "Senior High School (Grades 10-12)";
     mainDirector.title = "Head of School / Principal";
     mainDirector.phone = "+19174788477";
     mainDirector.avatar = "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80";
   }
 
-  // Update schoolInfo email
+  // Update schoolInfo email, website and subHeader
   if (schoolData.schoolInfo) {
     schoolData.schoolInfo.email = 'anisa2009@gmail.com';
+    schoolData.schoolInfo.website = 'anisa-senior-high-school-1.onrender.com';
     if (schoolData.schoolInfo.letterhead) {
-      schoolData.schoolInfo.letterhead.contact = 'Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com | Web: american-dara-academy-1-uyy3.onrender.com';
+      schoolData.schoolInfo.letterhead.subHeader = 'SENIOR HIGH SCHOOL • GRADES 10 - 12';
+      schoolData.schoolInfo.letterhead.contact = 'Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com';
     }
   }
 
@@ -595,7 +598,7 @@ async function handleSaveLetterhead(e) {
     dashboardLogoOpacity: opacityVal,
     headerTitle: formData.get('headerTitle').trim() || schoolData.schoolInfo.name,
     subHeader: formData.get('subHeader').trim(),
-    contact: `Tel: +221 33 869 2000 | Web: ${website}`,
+    contact: `Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com`,
     watermarkEnabled: formData.get('watermarkEnabled') !== null
   };
 
@@ -628,7 +631,7 @@ async function handleSaveLetterhead(e) {
 function applyBrandingAndLetterhead() {
   const info = schoolData.schoolInfo;
   const lh = info.letterhead || {};
-  const currentDomain = info.website || 'american-dara-academy-1-uyy3.onrender.com';
+  const currentDomain = info.website || 'anisa-senior-high-school-1.onrender.com';
 
   // 1. App Header Logo Icon & Domain Badge
   const headerLogo = document.getElementById('app-header-logo');
@@ -642,8 +645,7 @@ function applyBrandingAndLetterhead() {
 
   const websiteBadge = document.getElementById('header-website-badge');
   if (websiteBadge) {
-    websiteBadge.innerHTML = `<i data-lucide="globe" class="w-3 h-3"></i> ${currentDomain}`;
-    websiteBadge.href = `https://${currentDomain}`;
+    websiteBadge.remove();
   }
 
   // 3. Sign In / Login Portal Logo & School Name
@@ -660,7 +662,7 @@ function applyBrandingAndLetterhead() {
   const printContact = document.getElementById('print-contact');
 
   if (printContact) {
-    printContact.innerHTML = `Tel: +221 33 869 2000 | Web: <span class="font-bold text-ada-navy">${currentDomain}</span>`;
+    printContact.innerHTML = `Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com`;
   }
 
   if (lh.useImageLetterhead && lh.letterheadImageUrl && graphicContainer && textContainer && graphicImg) {
@@ -733,42 +735,85 @@ function buildCourseOptgroupsHTML(selectedCourseId = '') {
   return html;
 }
 
-function buildEnrollSubjectOptionsByCourse(courseTrack = 'Business', selectedCourseId = '') {
+function buildCoreSubjectOptions(selectedId = '') {
   const allCourses = (schoolData.courses && schoolData.courses.length > 0) ? schoolData.courses : STANDARD_HIGH_SCHOOL_COURSES;
-  
-  // 1. Core Subjects (Mathematics, English Language, Social Studies, Integrated Science)
   const coreSubjects = allCourses.filter(c => c.category === 'Core Subject' || c.track === 'All Courses' || (!c.track && c.category !== 'Elective'));
-  
-  // 2. Electives for this specific Course Track
-  const trackElectives = allCourses.filter(c => c.track === courseTrack);
 
   let html = '';
-  
-  html += `<optgroup label="--- CORE MANDATORY SUBJECTS ---">`;
   coreSubjects.forEach(c => {
-    html += `<option value="${c.id}" ${c.id === selectedCourseId ? 'selected' : ''}>${c.name} (${c.code || 'Core'})</option>`;
+    html += `<option value="${c.id}" ${c.id === selectedId ? 'selected' : ''}>${c.name} (${c.code || 'Core'})</option>`;
   });
-  html += `</optgroup>`;
+  return html;
+}
 
+function buildElectiveSubjectOptions(courseTrack = 'Business', selectedId = '') {
+  const allCourses = (schoolData.courses && schoolData.courses.length > 0) ? schoolData.courses : STANDARD_HIGH_SCHOOL_COURSES;
+  const trackElectives = allCourses.filter(c => c.category === 'Elective' && c.track === courseTrack);
+  const otherElectives = allCourses.filter(c => c.category === 'Elective' && c.track !== courseTrack);
+
+  let html = '';
   const trackLabel = courseTrack === 'General Arts' ? 'GENERAL ARTS ELECTIVES' : (courseTrack === 'Home Economics' ? 'HOME ECONOMICS ELECTIVES' : 'BUSINESS ELECTIVES');
   html += `<optgroup label="--- ${trackLabel} ---">`;
   if (trackElectives.length > 0) {
     trackElectives.forEach(c => {
-      html += `<option value="${c.id}" ${c.id === selectedCourseId ? 'selected' : ''}>${c.name} (${c.code || 'Elective'})</option>`;
+      html += `<option value="${c.id}" ${c.id === selectedId ? 'selected' : ''}>${c.name} (${c.code || 'Elective'})</option>`;
     });
   } else {
-    html += `<option disabled>-- No specific electives added yet for ${courseTrack} --</option>`;
+    html += `<option disabled>-- No specific electives added for ${courseTrack} --</option>`;
   }
   html += `</optgroup>`;
+
+  if (otherElectives.length > 0) {
+    html += `<optgroup label="--- OTHER ELECTIVES ---">`;
+    otherElectives.forEach(c => {
+      html += `<option value="${c.id}" ${c.id === selectedId ? 'selected' : ''}>${c.name} (${c.track || 'Elective'})</option>`;
+    });
+    html += `</optgroup>`;
+  }
 
   return html;
 }
 
-function updateEnrollSubjectOptionsByCourse(courseTrack) {
-  const select = document.getElementById('enroll-student-course');
-  if (select) {
-    select.innerHTML = buildEnrollSubjectOptionsByCourse(courseTrack);
+function updateEnrollSubjectOptionsByCourse(courseTrack = 'Business') {
+  // 1. Populate the 4 Core Subjects
+  const core1 = document.getElementById('enroll-core-1');
+  const core2 = document.getElementById('enroll-core-2');
+  const core3 = document.getElementById('enroll-core-3');
+  const core4 = document.getElementById('enroll-core-4');
+
+  if (core1) core1.innerHTML = buildCoreSubjectOptions('CRS-CORE-MATH');
+  if (core2) core2.innerHTML = buildCoreSubjectOptions('CRS-CORE-ENG');
+  if (core3) core3.innerHTML = buildCoreSubjectOptions('CRS-CORE-SCI');
+  if (core4) core4.innerHTML = buildCoreSubjectOptions('CRS-CORE-SOC');
+
+  // 2. Track badge
+  const badge = document.getElementById('enroll-electives-track-badge');
+  if (badge) {
+    badge.innerText = `${courseTrack} Electives`;
   }
+
+  // 3. Determine standard 4 electives for the chosen track
+  let defaultElecIds = [];
+  if (courseTrack === 'Business') {
+    defaultElecIds = ['CRS-BUS-ACC', 'CRS-BUS-BM', 'CRS-BUS-COST', 'CRS-BUS-ECON'];
+  } else if (courseTrack === 'General Arts') {
+    defaultElecIds = ['CRS-ART-LIT', 'CRS-ART-GOV', 'CRS-ART-HIST', 'CRS-ART-IRS'];
+  } else if (courseTrack === 'Home Economics') {
+    defaultElecIds = ['CRS-HE-FN', 'CRS-HE-CT', 'CRS-HE-ML', 'CRS-HE-GKA'];
+  } else {
+    defaultElecIds = ['CRS-BUS-ACC', 'CRS-BUS-BM', 'CRS-BUS-COST', 'CRS-BUS-ECON'];
+  }
+
+  // 4. Populate the 4 Electives
+  const el1 = document.getElementById('enroll-elective-1');
+  const el2 = document.getElementById('enroll-elective-2');
+  const el3 = document.getElementById('enroll-elective-3');
+  const el4 = document.getElementById('enroll-elective-4');
+
+  if (el1) el1.innerHTML = buildElectiveSubjectOptions(courseTrack, defaultElecIds[0]);
+  if (el2) el2.innerHTML = buildElectiveSubjectOptions(courseTrack, defaultElecIds[1]);
+  if (el3) el3.innerHTML = buildElectiveSubjectOptions(courseTrack, defaultElecIds[2]);
+  if (el4) el4.innerHTML = buildElectiveSubjectOptions(courseTrack, defaultElecIds[3]);
 }
 
 function getCourseTrackBadgeHTML(track) {
@@ -1603,7 +1648,7 @@ function openEnrollStudentModal() {
   populateAllDropdowns();
   const idInput = document.getElementById('enroll-student-id');
   if (idInput) {
-    idInput.value = `ASHS-9${String((schoolData.students || []).length + 1).padStart(2, '0')}`;
+    idInput.value = `ASHS-10${String((schoolData.students || []).length + 1).padStart(2, '0')}`;
   }
   const trackSelect = document.getElementById('enroll-student-course-track');
   const track = trackSelect ? trackSelect.value : 'Business';
@@ -1642,15 +1687,93 @@ async function handleEnrollStudent(e) {
   const firstName = formData.get('firstName').trim();
   const lastName = formData.get('lastName').trim();
   const assignedTeacherId = formData.get('assignedTeacherId');
-  const enrolledCourseId = formData.get('enrolledCourseId');
-  const initialScore = parseFloat(formData.get('initialScore')) || 0;
   const guardianName = (formData.get('guardianName') || '').trim();
   const guardianRelation = formData.get('guardianRelation') || 'Parent';
   const guardianPhone = (formData.get('guardianPhone') || '').trim();
   const guardianEmail = (formData.get('guardianEmail') || '').trim().toLowerCase();
 
   const teacher = (schoolData.staff || []).find(t => t.id === assignedTeacherId) || schoolData.staff[0];
-  const course = (schoolData.courses || []).find(c => c.id === enrolledCourseId);
+
+  // Helper to convert percentage to letter grade & 4.0 GPA scale
+  function calculateSubjectGrade(score) {
+    if (score >= 90) return { letter: 'A', gpa: 4.0 };
+    if (score >= 85) return { letter: 'A-', gpa: 3.7 };
+    if (score >= 80) return { letter: 'B+', gpa: 3.3 };
+    if (score >= 75) return { letter: 'B', gpa: 3.0 };
+    if (score >= 70) return { letter: 'C+', gpa: 2.3 };
+    if (score >= 65) return { letter: 'C', gpa: 2.0 };
+    if (score >= 60) return { letter: 'D', gpa: 1.0 };
+    return { letter: 'F', gpa: 0.0 };
+  }
+
+  // Collect 4 Core subjects
+  const coreInputs = [
+    { courseId: formData.get('coreSubject1'), score: parseFloat(formData.get('coreScore1')) || 85, defaultName: "Mathematics (Core)", defaultCode: "MATH-C" },
+    { courseId: formData.get('coreSubject2'), score: parseFloat(formData.get('coreScore2')) || 88, defaultName: "English Language", defaultCode: "ENG-C" },
+    { courseId: formData.get('coreSubject3'), score: parseFloat(formData.get('coreScore3')) || 84, defaultName: "Integrated Science", defaultCode: "SCI-C" },
+    { courseId: formData.get('coreSubject4'), score: parseFloat(formData.get('coreScore4')) || 86, defaultName: "Social Studies", defaultCode: "SOC-C" }
+  ];
+
+  // Collect 4 Elective subjects
+  const electiveInputs = [
+    { courseId: formData.get('electiveSubject1'), score: parseFloat(formData.get('electiveScore1')) || 88, defaultName: "Elective 1", defaultCode: "ELEC-1" },
+    { courseId: formData.get('electiveSubject2'), score: parseFloat(formData.get('electiveScore2')) || 85, defaultName: "Elective 2", defaultCode: "ELEC-2" },
+    { courseId: formData.get('electiveSubject3'), score: parseFloat(formData.get('electiveScore3')) || 90, defaultName: "Elective 3", defaultCode: "ELEC-3" },
+    { courseId: formData.get('electiveSubject4'), score: parseFloat(formData.get('electiveScore4')) || 87, defaultName: "Elective 4", defaultCode: "ELEC-4" }
+  ];
+
+  const allEnrolledSubjects = [];
+  let totalScoreSum = 0;
+  let totalGpaSum = 0;
+
+  // 1. Process 4 Core
+  coreInputs.forEach((item, idx) => {
+    const course = (schoolData.courses || []).find(c => c.id === item.courseId);
+    const cName = course ? course.name : item.defaultName;
+    const cId = course ? course.id : `CRS-CORE-${idx + 1}`;
+    const cCode = course ? course.code : item.defaultCode;
+    const gInfo = calculateSubjectGrade(item.score);
+
+    totalScoreSum += item.score;
+    totalGpaSum += gInfo.gpa;
+
+    allEnrolledSubjects.push({
+      courseId: cId,
+      name: cName,
+      code: cCode,
+      category: "Core Subject",
+      score: item.score,
+      letterGrade: gInfo.letter,
+      gpa: gInfo.gpa,
+      teacherName: course?.teacherName || teacher?.name || 'Faculty Assigned'
+    });
+  });
+
+  // 2. Process 4 Electives
+  electiveInputs.forEach((item, idx) => {
+    const course = (schoolData.courses || []).find(c => c.id === item.courseId);
+    const cName = course ? course.name : `${courseTrack} Elective ${idx + 1}`;
+    const cId = course ? course.id : `CRS-ELEC-${idx + 1}`;
+    const cCode = course ? course.code : `ELEC-${idx + 1}`;
+    const gInfo = calculateSubjectGrade(item.score);
+
+    totalScoreSum += item.score;
+    totalGpaSum += gInfo.gpa;
+
+    allEnrolledSubjects.push({
+      courseId: cId,
+      name: cName,
+      code: cCode,
+      category: "Elective",
+      score: item.score,
+      letterGrade: gInfo.letter,
+      gpa: gInfo.gpa,
+      teacherName: course?.teacherName || teacher?.name || 'Faculty Assigned'
+    });
+  });
+
+  const overallAvgScore = parseFloat((totalScoreSum / 8).toFixed(1));
+  const overallCumulativeGpa = parseFloat((totalGpaSum / 8).toFixed(2));
 
   const newStudent = {
     id: studentId,
@@ -1660,13 +1783,14 @@ async function handleEnrollStudent(e) {
     firstName: firstName,
     lastName: lastName,
     grade: grade,
-    section: `Senior High ${grade === 9 ? '1' : (grade === 10 ? '2' : (grade === 11 ? '3' : '4'))} (${courseTrack})`,
+    section: `Senior High ${grade === 10 ? '1' : (grade === 11 ? '2' : '3')} (${courseTrack})`,
     assignedTeacherId: teacher ? teacher.id : 'DIR-001',
     assignedTeacherName: teacher ? teacher.name : 'Faculty Assigned',
-    enrolledCourseId: course ? course.id : '',
-    enrolledSubject: course ? course.name : 'Core Curriculum',
-    currentScore: initialScore,
-    gpa: initialScore > 0 ? parseFloat(((initialScore / 100) * 4.0).toFixed(2)) : 0,
+    enrolledCourseId: allEnrolledSubjects[0].courseId,
+    enrolledSubject: `4 Core + 4 Electives (${courseTrack})`,
+    enrolledSubjects: allEnrolledSubjects,
+    currentScore: overallAvgScore,
+    gpa: overallCumulativeGpa,
     attendanceRate: 100.0,
     guardianName: guardianName || 'Parent / Guardian',
     guardianRelation: guardianRelation,
@@ -1678,34 +1802,47 @@ async function handleEnrollStudent(e) {
   if (!schoolData.students) schoolData.students = [];
   schoolData.students.unshift(newStudent);
 
-  // If a course was selected, initialize a gradebook entry
-  if (course) {
-    let gradeRecord = schoolData.gradebook.find(g => g.studentId === studentId && g.classId === course.id);
-    if (!gradeRecord) {
-      gradeRecord = {
-        id: `GRD-${studentId}-${course.id}`,
-        studentId: studentId,
-        studentName: `${firstName} ${lastName}`,
-        classId: course.id,
-        className: course.name,
-        term: "Academic Year 2026",
-        assessments: [
-          {
-            assignmentId: `ASN-INIT-${course.id}`,
-            name: "Initial Core Assessment",
-            category: "Exam",
-            maxScore: 100,
-            score: initialScore,
-            weight: 30
-          }
-        ],
-        currentGradePercentage: initialScore,
-        letterGrade: initialScore >= 90 ? 'A' : (initialScore >= 80 ? 'B' : (initialScore >= 70 ? 'C' : 'F')),
-        teacherComment: "Enrolled in active curriculum."
-      };
+  // Initialize all 8 Gradebook entries in schoolData.gradebook
+  if (!schoolData.gradebook) schoolData.gradebook = [];
+
+  allEnrolledSubjects.forEach(sub => {
+    const existingIndex = schoolData.gradebook.findIndex(g => g.studentId === studentId && g.classId === sub.courseId);
+    const gradeRecord = {
+      id: `GRD-${studentId}-${sub.courseId}`,
+      studentId: studentId,
+      studentName: `${firstName} ${lastName}`,
+      classId: sub.courseId,
+      className: sub.name,
+      term: "Academic Year 2026",
+      assessments: [
+        {
+          assignmentId: `ASN-INIT-${sub.courseId}`,
+          name: "Initial Term Assessment",
+          category: "Exam",
+          maxScore: 100,
+          score: sub.score,
+          weight: 30
+        }
+      ],
+      currentGradePercentage: sub.score,
+      letterGrade: sub.letterGrade,
+      teacherComment: `Enrolled in active ${sub.category} curriculum.`
+    };
+
+    if (existingIndex >= 0) {
+      schoolData.gradebook[existingIndex] = gradeRecord;
+    } else {
       schoolData.gradebook.push(gradeRecord);
     }
-  }
+
+    try {
+      fetch('/api/gradebook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(gradeRecord)
+      });
+    } catch (e) {}
+  });
 
   saveAppDataLocal();
 
@@ -1720,7 +1857,7 @@ async function handleEnrollStudent(e) {
   populateAllDropdowns();
   closeEnrollModal();
   form.reset();
-  showToast(`Enrolled scholar ${newStudent.firstName} ${newStudent.lastName}!`, "success");
+  showToast(`Enrolled scholar ${newStudent.firstName} ${newStudent.lastName} with 4 Core & 4 Elective subjects!`, "success");
   refreshActiveView();
 }
 
@@ -1917,7 +2054,7 @@ function sendTeacherCredentialsViaWhatsApp(staffId) {
   if (!staff) return;
 
   const currentUrl = cachedWorldwideUrl || window.location.origin;
-  const message = `🦅 *ANISA SENIOR HIGH SCHOOL*\n👨‍🏫 *Teacher Portal Login Credentials*\n\nDear *${staff.name}*,\n\nYour faculty account is now active on the Anisa Senior High School Management Portal:\n\n🌐 *Portal Website:* ${currentUrl}\nOfficial Domain: american-dara-academy-1-uyy3.onrender.com\n\n👤 *Username / Email:* ${staff.email}\n🔑 *Password:* ${staff.password}\n🏫 *Division:* ${staff.division}\n\nYou can now log in to manage your classes, create assignments (Exam, Homework, Class Work, Class Test), and record student grades.\n\n_Office of the Principal_\n_Anisa Senior High School_`;
+  const message = `🦅 *ANISA SENIOR HIGH SCHOOL*\n👨‍🏫 *Teacher Portal Login Credentials*\n\nDear *${staff.name}*,\n\nYour faculty account is now active on the Anisa Senior High School Management Portal:\n\n🌐 *Portal Website:* ${currentUrl}\nOfficial Domain: anisa-senior-high-school-1.onrender.com\n\n👤 *Username / Email:* ${staff.email}\n🔑 *Password:* ${staff.password}\n🏫 *Division:* ${staff.division}\n\nYou can now log in to manage your classes, create assignments (Exam, Homework, Class Work, Class Test), and record student grades.\n\n_Office of the Principal_\n_Anisa Senior High School_`;
 
   const phone = (staff.phone || '').replace(/[^0-9+]/g, '');
   let waUrl = '';
@@ -1939,7 +2076,7 @@ function sendTeacherCredentialsViaEmail(staffId) {
 
   const currentUrl = cachedWorldwideUrl || window.location.origin;
   const subject = `Your Anisa Senior High School Faculty Portal Login Credentials`;
-  const body = `Dear ${staff.name},\n\nYour faculty account is now active on the Anisa Senior High School portal:\n\nPortal Website: ${currentUrl}\nOfficial Domain: american-dara-academy-1-uyy3.onrender.com\n\nUsername / Email: ${staff.email}\nPassword: ${staff.password}\nDivision: ${staff.division}\nTitle: ${staff.title}\n\nYou can now sign in to access your gradebook and student assignments.\n\nWarm regards,\nOffice of the Principal\nAnisa Senior High School`;
+  const body = `Dear ${staff.name},\n\nYour faculty account is now active on the Anisa Senior High School portal:\n\nPortal Website: ${currentUrl}\nOfficial Domain: anisa-senior-high-school-1.onrender.com\n\nUsername / Email: ${staff.email}\nPassword: ${staff.password}\nDivision: ${staff.division}\nTitle: ${staff.title}\n\nYou can now sign in to access your gradebook and student assignments.\n\nWarm regards,\nOffice of the Principal\nAnisa Senior High School`;
 
   const mailtoUrl = `mailto:${encodeURIComponent(staff.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   window.location.href = mailtoUrl;
@@ -2141,13 +2278,18 @@ function openPrintReportsPreview(studentId = '') {
   let coursesTableRows = '';
   if (studentGradeRecords.length > 0) {
     coursesTableRows = studentGradeRecords.map(g => {
-      const course = schoolData.courses.find(c => c.id === g.classId);
+      const course = (schoolData.courses || []).find(c => c.id === g.classId) || STANDARD_HIGH_SCHOOL_COURSES.find(c => c.id === g.classId);
+      const isCore = (course?.category === 'Core Subject') || (g.classId && g.classId.includes('CORE')) || (g.className && g.className.includes('(Core)'));
+      const catBadge = isCore
+        ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-900 border border-blue-200">Core</span>`
+        : `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-pink-100 text-pink-900 border border-pink-200">Elective</span>`;
+
       return `
         <tr>
-          <td class="p-2.5 font-bold">${g.className || course?.name || 'Subject'}</td>
-          <td class="p-2.5">${course?.category || 'Core Subject'}</td>
-          <td class="p-2.5">${course?.teacherName || student.assignedTeacherName || 'Faculty Assigned'}</td>
-          <td class="p-2.5 text-center font-bold">${g.currentGradePercentage || 0}%</td>
+          <td class="p-2.5 font-bold text-slate-900">${g.className || course?.name || 'Subject'}</td>
+          <td class="p-2.5">${catBadge}</td>
+          <td class="p-2.5 text-slate-600">${course?.teacherName || student.assignedTeacherName || 'Faculty Assigned'}</td>
+          <td class="p-2.5 text-center font-bold text-blue-950">${g.currentGradePercentage || 0}%</td>
           <td class="p-2.5 text-center"><span class="px-2 py-0.5 rounded font-bold ${g.letterGrade === 'A' || g.letterGrade === 'A-' ? 'bg-emerald-100 text-emerald-800' : 'bg-blue-100 text-blue-800'}">${g.letterGrade || 'N/A'}</span></td>
         </tr>
       `;
@@ -2229,14 +2371,33 @@ function generateStudentTranscriptSummary(student) {
   let gradeLines = '';
   
   if (studentGradeRecords.length > 0) {
-    gradeLines = studentGradeRecords.map(g => `• ${g.className}: ${g.currentGradePercentage}% (Grade ${g.letterGrade})`).join('\n');
+    const coreRecords = [];
+    const elecRecords = [];
+    studentGradeRecords.forEach(g => {
+      const course = (schoolData.courses || []).find(c => c.id === g.classId);
+      if (course?.category === 'Core Subject' || g.className?.includes('(Core)')) {
+        coreRecords.push(g);
+      } else {
+        elecRecords.push(g);
+      }
+    });
+
+    if (coreRecords.length > 0) {
+      gradeLines += `📘 *4 Core Subjects:*\n` + coreRecords.map(g => `• ${g.className}: ${g.currentGradePercentage}% (${g.letterGrade})`).join('\n');
+    }
+    if (elecRecords.length > 0) {
+      gradeLines += `\n\n🎨 *4 Elective Subjects (${student.courseTrack || 'Programme'}):*\n` + elecRecords.map(g => `• ${g.className}: ${g.currentGradePercentage}% (${g.letterGrade})`).join('\n');
+    }
+    if (!gradeLines) {
+      gradeLines = studentGradeRecords.map(g => `• ${g.className}: ${g.currentGradePercentage}% (${g.letterGrade})`).join('\n');
+    }
   } else {
     gradeLines = `• ${student.enrolledSubject || 'General Curriculum'}: ${student.currentScore || 0}% (Grade A)`;
   }
 
   return {
     subject: `Official Academic Transcript: ${student.firstName} ${student.lastName} (${student.id}) - Anisa Senior High School`,
-    text: `🦅 *ANISA SENIOR HIGH SCHOOL*\n*Official Academic Transcript & Report Card*\n\nDear ${student.guardianName || 'Parent/Guardian'},\n\nHere is the official high school academic report for *${student.firstName} ${student.lastName}*:\n\n📋 *Student ID:* ${student.id}\n📚 *Course Track:* ${student.courseTrack || 'Business'}\n🏫 *Grade Level:* Senior High (Grade ${student.grade})\n🎓 *Cumulative GPA:* ${(student.gpa || 0).toFixed(2)} / 4.00\n👨‍🏫 *Assigned Teacher:* ${student.assignedTeacherName || 'Faculty Assigned'}\n\n*Subject Scores:*\n${gradeLines}\n\n🌐 View Live Portal: ${cachedWorldwideUrl || 'https://american-dara-academy-1-uyy3.onrender.com'}\nOfficial Website: https://american-dara-academy-1-uyy3.onrender.com\n\n_Office of Academic Affairs_\n_Anisa Senior High School, Dakar_`
+    text: `🦅 *ANISA SENIOR HIGH SCHOOL*\n*Official Academic Transcript & Report Card*\n\nDear ${student.guardianName || 'Parent/Guardian'},\n\nHere is the official high school academic report for *${student.firstName} ${student.lastName}*:\n\n📋 *Student ID:* ${student.id}\n📚 *Course Track:* ${student.courseTrack || 'Business'}\n🏫 *Grade Level:* Senior High (Grade ${student.grade})\n🎓 *Cumulative GPA:* ${(student.gpa || 0).toFixed(2)} / 4.00\n👨‍🏫 *Assigned Teacher:* ${student.assignedTeacherName || 'Faculty Assigned'}\n\n*Subject Scores:*\n${gradeLines}\n\n🌐 View Live Portal: ${cachedWorldwideUrl || 'https://anisa-senior-high-school-1.onrender.com'}\nOfficial Website: https://anisa-senior-high-school-1.onrender.com\n\n_Office of Academic Affairs_\n_Anisa Senior High School, Dakar_`
   };
 }
 
@@ -2299,7 +2460,7 @@ function sendCurrentTranscriptViaGmail() {
 const BROADCAST_TEMPLATES = {
   report_cards: {
     subject: "Anisa Senior High School - Academic Transcripts & Term Report Cards Ready",
-    message: `Dear Anisa Senior High School Parents & Guardians,\n\nWe are pleased to inform you that the official academic transcripts and term assessment report cards for your scholars are now published.\n\nYou can access your scholar's marks, assignment scores, and attendance record directly through the high school portal:\n🔗 Portal Link: {{PORTAL_URL}}\nOfficial Website: https://american-dara-academy-1-uyy3.onrender.com\n\nShould you have any academic inquiries, please contact the Office of Academic Affairs.\n\nWarm regards,\nSchool Leadership Team\nAnisa Senior High School`
+    message: `Dear Anisa Senior High School Parents & Guardians,\n\nWe are pleased to inform you that the official academic transcripts and term assessment report cards for your scholars are now published.\n\nYou can access your scholar's marks, assignment scores, and attendance record directly through the high school portal:\n🔗 Portal Link: {{PORTAL_URL}}\nOfficial Website: https://anisa-senior-high-school-1.onrender.com\n\nShould you have any academic inquiries, please contact the Office of Academic Affairs.\n\nWarm regards,\nSchool Leadership Team\nAnisa Senior High School`
   },
   conference: {
     subject: "Invitation: Parent-Teacher Academic Conference - Anisa Senior High School",
@@ -2515,8 +2676,8 @@ function showToast(message, type = 'info') {
 // -------------------------------------------------------------
 // 10. WORLDWIDE SHARING & PHONE LOGIN (ANY WI-FI / 4G / 5G)
 // -------------------------------------------------------------
-let cachedWorldwideUrl = 'https://american-dara-academy-1-uyy3.onrender.com';
-let cachedLanUrl = 'https://american-dara-academy-1-uyy3.onrender.com';
+let cachedWorldwideUrl = 'https://anisa-senior-high-school-1.onrender.com';
+let cachedLanUrl = 'https://anisa-senior-high-school-1.onrender.com';
 
 async function fetchPublicPortalUrl() {
   try {
@@ -2535,7 +2696,7 @@ async function fetchPublicPortalUrl() {
 }
 
 function updateAllShareElements(url, lanUrl) {
-  const finalUrl = url || 'https://american-dara-academy-1-uyy3.onrender.com';
+  const finalUrl = url || 'https://anisa-senior-high-school-1.onrender.com';
   const shareInput = document.getElementById('share-portal-url-input');
   if (shareInput) shareInput.value = finalUrl;
 
@@ -2579,16 +2740,16 @@ function copySharePortalLink() {
 }
 
 function sharePortalViaWhatsApp() {
-  const url = cachedWorldwideUrl || 'https://american-dara-academy-1-uyy3.onrender.com';
-  const message = `🦅 *Anisa Senior High School - Staff Portal*\n\nDear Faculty & Staff,\nPlease access your gradebook, assignments, and student management portal here:\n🔗 ${url}\n\n_Official Website: https://american-dara-academy-1-uyy3.onrender.com_`;
+  const url = cachedWorldwideUrl || 'https://anisa-senior-high-school-1.onrender.com';
+  const message = `🦅 *Anisa Senior High School - Staff Portal*\n\nDear Faculty & Staff,\nPlease access your gradebook, assignments, and student management portal here:\n🔗 ${url}\n\n_Official Website: https://anisa-senior-high-school-1.onrender.com_`;
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
   window.open(whatsappUrl, '_blank');
 }
 
 function sharePortalViaEmail() {
-  const url = cachedWorldwideUrl || 'https://american-dara-academy-1-uyy3.onrender.com';
+  const url = cachedWorldwideUrl || 'https://anisa-senior-high-school-1.onrender.com';
   const subject = "Anisa Senior High School - Faculty & Staff Portal Login";
-  const body = `Dear Faculty & Staff,\n\nPlease find the official login link for the Anisa Senior High School Management & GradeLink Portal:\n\nPortal Link: ${url}\nOfficial Website: https://american-dara-academy-1-uyy3.onrender.com\n\nYou can log in directly from your laptop, tablet, or smartphone to manage course grades and assignments.\n\nWarm regards,\nOffice of the Principal\nAnisa Senior High School`;
+  const body = `Dear Faculty & Staff,\n\nPlease find the official login link for the Anisa Senior High School Management & GradeLink Portal:\n\nPortal Link: ${url}\nOfficial Website: https://anisa-senior-high-school-1.onrender.com\n\nYou can log in directly from your laptop, tablet, or smartphone to manage course grades and assignments.\n\nWarm regards,\nOffice of the Principal\nAnisa Senior High School`;
   const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   window.location.href = mailtoUrl;
 }

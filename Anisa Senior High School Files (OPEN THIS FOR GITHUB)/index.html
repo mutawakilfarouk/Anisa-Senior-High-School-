@@ -53,15 +53,15 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <!-- Custom Styles -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3.0">
 </head>
 <body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col antialiased">
 
   <!-- =========================================================
        1. GLOBAL AUTHENTICATION / TOP HEADER (GRADELINK STYLE)
        ========================================================= -->
-  <header class="sticky top-0 z-40 bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white shadow-md no-print border-b border-pink-500/30">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <header class="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-white shadow-xl border-b border-pink-500/30 sticky top-0 z-40">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 gap-4">
         
         <!-- App Logo & School Name & Website URL -->
@@ -70,11 +70,8 @@
           <div>
             <div class="flex items-center gap-2">
               <span class="font-crest font-bold text-base sm:text-lg tracking-wider text-white" id="header-school-name">ANISA SENIOR HIGH SCHOOL</span>
-              <a href="https://american-dara-academy-1-uyy3.onrender.com" target="_blank" onclick="event.stopPropagation()" class="text-[10px] font-bold px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-400/30 hover:bg-pink-600 hover:text-white transition hidden sm:inline-flex items-center gap-1" id="header-website-badge">
-                <i data-lucide="globe" class="w-3 h-3"></i> american-dara-academy-1-uyy3.onrender.com
-              </a>
             </div>
-            <p class="text-[10px] text-pink-200/90 tracking-wide font-semibold">SENIOR HIGH SCHOOL • GRADES 9 - 12</p>
+            <p class="text-[10px] text-pink-200/90 tracking-wide font-semibold">SENIOR HIGH SCHOOL • GRADES 10 - 12</p>
           </div>
         </div>
 
@@ -126,7 +123,7 @@
        2. SUBNAV BREADCRUMB & ROLE-AWARE ACTION SHORTCUTS
        ========================================================= -->
   <div class="bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-2 sticky top-16 z-30 shadow-sm no-print">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <div class="w-full flex items-center justify-between gap-4">
       <div class="flex items-center gap-2 text-xs font-semibold text-slate-600" id="portal-breadcrumb">
         <button onclick="navigateToDashboard()" class="text-blue-900 hover:text-pink-600 flex items-center gap-1">
           <i data-lucide="layout-grid" class="w-4 h-4 text-pink-500"></i> Main Dashboard
@@ -164,7 +161,7 @@
   <!-- =========================================================
        3. MAIN CONTENT CONTAINER
        ========================================================= -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+  <main class="flex-1 w-full p-4 sm:p-6 lg:p-8">
 
     <!-- -------------------------------------------------------
          VIEW A: GRADELINK ICON DASHBOARD
@@ -172,19 +169,19 @@
     <div id="view-dashboard" class="space-y-8 relative min-h-[70vh]">
 
       <!-- Welcome Banner -->
-      <div class="relative z-10 bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-pink-500/30 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="space-y-2 text-center md:text-left">
+      <div class="relative z-10 bg-gradient-to-r from-blue-950 via-indigo-950 to-pink-900 text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-pink-500/30 flex flex-col lg:flex-row items-start justify-between gap-6">
+        <div class="space-y-2 text-left">
           <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-pink-500/20 text-pink-300 text-xs font-bold" id="dash-role-pill">
             <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Senior High Authenticated Session
           </div>
-          <h1 class="text-2xl sm:text-3xl font-crest font-bold text-white">
+          <h1 class="text-2xl sm:text-3xl font-crest font-bold text-white text-left">
             Welcome, <span id="dash-welcome-name">Mr. Abdul Nasir Musah</span>
           </h1>
-          <p class="text-xs sm:text-sm text-pink-100/90 max-w-2xl leading-relaxed" id="dash-welcome-description">
+          <p class="text-xs sm:text-sm text-pink-100/90 max-w-2xl leading-relaxed text-left" id="dash-welcome-description">
             Anisa Senior High School academic portal. Manage high school courses, assign faculty, publish assignments, and record student grades.
           </p>
         </div>
-        <div class="flex flex-col sm:flex-row gap-3">
+        <div class="flex flex-wrap items-center justify-start gap-3">
           <button data-role-restricted="DIRECTOR,DEAN" onclick="openCreateTeacherModal()" class="px-4 py-2.5 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold rounded-xl text-xs shadow-lg transition flex items-center justify-center gap-2">
             <i data-lucide="user-plus" class="w-4 h-4 text-pink-200"></i> + Teacher Login
           </button>
@@ -239,7 +236,7 @@
             <i data-lucide="users" class="w-7 h-7"></i>
           </div>
           <h3 class="font-bold text-sm text-slate-900">Students (SIS)</h3>
-          <p class="text-[11px] text-slate-500 mt-1">Grades 9, 10, 11 & 12 roster</p>
+          <p class="text-[11px] text-slate-500 mt-1">Grades 10, 11 & 12 roster</p>
           <span class="mt-3 text-[10px] font-bold text-pink-700 bg-pink-50 px-2 py-0.5 rounded-full" id="tile-student-count">0 Enrolled</span>
         </div>
 
@@ -310,7 +307,7 @@
         <div class="flex justify-between items-center">
           <div>
             <h3 class="font-bold text-blue-950 text-base">Senior High Class Roster & Student Marks</h3>
-            <p class="text-xs text-slate-500">Senior High School • Grades 9, 10, 11 & 12</p>
+            <p class="text-xs text-slate-500">Senior High School • Grades 10, 11 & 12</p>
           </div>
           <button onclick="switchView('gradebook')" class="text-xs font-bold text-blue-900 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-3.5 py-1.5 rounded-xl transition">
             Open Full Gradebook &rarr;
@@ -398,11 +395,10 @@
         </div>
         <div>
           <select id="sis-division-filter" onchange="filterStudentList()" class="w-full py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-semibold">
-            <option value="all">All Grades (Grades 9 - 12)</option>
-            <option value="Grade 9">Grade 9 (Senior High 1)</option>
-            <option value="Grade 10">Grade 10 (Senior High 2)</option>
-            <option value="Grade 11">Grade 11 (Senior High 3)</option>
-            <option value="Grade 12">Grade 12 (Senior High 4)</option>
+            <option value="all">All Grades (Grades 10 - 12)</option>
+            <option value="Grade 10">Grade 10 (Senior High 1)</option>
+            <option value="Grade 11">Grade 11 (Senior High 2)</option>
+            <option value="Grade 12">Grade 12 (Senior High 3)</option>
           </select>
         </div>
         <div>
@@ -745,7 +741,7 @@
             </div>
             <div>
               <label class="block font-bold text-slate-700 mb-1">Official Website / Portal URL</label>
-              <input type="text" id="cfg-website" name="website" value="https://american-dara-academy-1-uyy3.onrender.com" class="w-full p-2 bg-white border border-pink-300 rounded-lg font-bold text-blue-950">
+              <input type="text" id="cfg-website" name="website" value="https://anisa-senior-high-school-1.onrender.com" class="w-full p-2 bg-white border border-pink-300 rounded-lg font-bold text-blue-950">
             </div>
           </div>
 
@@ -793,15 +789,14 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Student ID *</label>
-            <input type="text" id="enroll-student-id" name="studentId" required placeholder="e.g. ASHS-901" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-mono font-bold text-blue-950">
+            <input type="text" id="enroll-student-id" name="studentId" required placeholder="e.g. ASHS-1001" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-mono font-bold text-blue-950">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">High School Grade *</label>
             <select name="grade" id="enroll-student-grade" onchange="autoSyncDivisionFromGrade(this.value)" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-semibold text-slate-800">
-              <option value="9" selected>Grade 9 (Freshman / Senior High 1)</option>
-              <option value="10">Grade 10 (Sophomore / Senior High 2)</option>
-              <option value="11">Grade 11 (Junior / Senior High 3)</option>
-              <option value="12">Grade 12 (Senior / Senior High 4)</option>
+              <option value="10" selected>Grade 10 (Senior High 1)</option>
+              <option value="11">Grade 11 (Senior High 2)</option>
+              <option value="12">Grade 12 (Senior High 3)</option>
             </select>
           </div>
         </div>
@@ -821,21 +816,124 @@
           </div>
           <div><label class="block font-bold mb-1 text-slate-700">Assigned Faculty Advisor</label><select name="assignedTeacherId" id="enroll-student-teacher" class="w-full p-2.5 bg-slate-50 border rounded-lg"></select></div>
         </div>
-        <div class="p-3.5 bg-pink-50/70 rounded-2xl border border-pink-200 space-y-2">
+        <!-- 4 MANDATORY CORE SUBJECTS SECTION -->
+        <div class="p-4 bg-blue-50/80 rounded-2xl border border-blue-200 space-y-3">
           <div class="flex items-center justify-between">
             <span class="font-bold text-blue-950 text-xs flex items-center gap-1.5">
-              <i data-lucide="book-open" class="w-4 h-4 text-pink-600"></i> Subject Enrolled (Core or Course Elective)
+              <i data-lucide="book-check" class="w-4 h-4 text-blue-700"></i> 4 Mandatory Core Subjects (All Scholars)
             </span>
-            <span class="text-[10px] text-pink-800 font-bold bg-pink-100 px-2 py-0.5 rounded-full">Core + Electives</span>
+            <span class="text-[10px] text-blue-800 font-bold bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-200">Core Curriculum</span>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div class="sm:col-span-2">
-              <label class="block font-bold mb-1 text-slate-700">Select Subject *</label>
-              <select name="enrolledCourseId" id="enroll-student-course" class="w-full p-2.5 bg-white border border-slate-200 rounded-lg font-semibold text-slate-800"></select>
+          <p class="text-[11px] text-slate-600">All Senior High scholars are enrolled in 4 mandatory core subjects:</p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Core 1: Mathematics -->
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100 shadow-sm space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10px] font-bold text-blue-900">Core 1: Mathematics *</label>
+                <span class="text-[9px] text-slate-400 font-semibold">Mark (%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select name="coreSubject1" id="enroll-core-1" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800"></select>
+                <input type="number" step="1" min="0" max="100" name="coreScore1" value="85" class="w-20 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-blue-950 text-center">
+              </div>
             </div>
-            <div>
-              <label class="block font-bold mb-1 text-slate-700">Initial Score (%)</label>
-              <input type="number" step="0.5" min="0" max="100" name="initialScore" value="90" class="w-full p-2.5 bg-white border border-slate-200 rounded-lg font-bold text-blue-950">
+
+            <!-- Core 2: English Language -->
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100 shadow-sm space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10px] font-bold text-blue-900">Core 2: English Language *</label>
+                <span class="text-[9px] text-slate-400 font-semibold">Mark (%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select name="coreSubject2" id="enroll-core-2" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800"></select>
+                <input type="number" step="1" min="0" max="100" name="coreScore2" value="88" class="w-20 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-blue-950 text-center">
+              </div>
+            </div>
+
+            <!-- Core 3: Integrated Science -->
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100 shadow-sm space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10px] font-bold text-blue-900">Core 3: Integrated Science *</label>
+                <span class="text-[9px] text-slate-400 font-semibold">Mark (%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select name="coreSubject3" id="enroll-core-3" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800"></select>
+                <input type="number" step="1" min="0" max="100" name="coreScore3" value="84" class="w-20 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-blue-950 text-center">
+              </div>
+            </div>
+
+            <!-- Core 4: Social Studies -->
+            <div class="bg-white p-2.5 rounded-xl border border-blue-100 shadow-sm space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10px] font-bold text-blue-900">Core 4: Social Studies *</label>
+                <span class="text-[9px] text-slate-400 font-semibold">Mark (%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select name="coreSubject4" id="enroll-core-4" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800"></select>
+                <input type="number" step="1" min="0" max="100" name="coreScore4" value="86" class="w-20 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-blue-950 text-center">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 PROGRAMME ELECTIVE SUBJECTS SECTION -->
+        <div class="p-4 bg-pink-50/80 rounded-2xl border border-pink-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-blue-950 text-xs flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-4 h-4 text-pink-600"></i> 4 Programme Elective Subjects
+            </span>
+            <span id="enroll-electives-track-badge" class="text-[10px] text-pink-800 font-bold bg-pink-100 px-2.5 py-0.5 rounded-full border border-pink-200">Business Track</span>
+          </div>
+          <p class="text-[11px] text-slate-600">Tailored to scholar's course track (automatically loaded or customize freely):</p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Elective 1 -->
+            <div class="bg-white p-2.5 rounded-xl border border-pink-100 shadow-sm space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10px] font-bold text-pink-900" id="enroll-elective-label-1">Elective 1 *</label>
+                <span class="text-[9px] text-slate-400 font-semibold">Mark (%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select name="electiveSubject1" id="enroll-elective-1" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800"></select>
+                <input type="number" step="1" min="0" max="100" name="electiveScore1" value="88" class="w-20 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-blue-950 text-center">
+              </div>
+            </div>
+
+            <!-- Elective 2 -->
+            <div class="bg-white p-2.5 rounded-xl border border-pink-100 shadow-sm space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10px] font-bold text-pink-900" id="enroll-elective-label-2">Elective 2 *</label>
+                <span class="text-[9px] text-slate-400 font-semibold">Mark (%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select name="electiveSubject2" id="enroll-elective-2" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800"></select>
+                <input type="number" step="1" min="0" max="100" name="electiveScore2" value="85" class="w-20 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-blue-950 text-center">
+              </div>
+            </div>
+
+            <!-- Elective 3 -->
+            <div class="bg-white p-2.5 rounded-xl border border-pink-100 shadow-sm space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10px] font-bold text-pink-900" id="enroll-elective-label-3">Elective 3 *</label>
+                <span class="text-[9px] text-slate-400 font-semibold">Mark (%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select name="electiveSubject3" id="enroll-elective-3" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800"></select>
+                <input type="number" step="1" min="0" max="100" name="electiveScore3" value="90" class="w-20 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-blue-950 text-center">
+              </div>
+            </div>
+
+            <!-- Elective 4 -->
+            <div class="bg-white p-2.5 rounded-xl border border-pink-100 shadow-sm space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="block text-[10px] font-bold text-pink-900" id="enroll-elective-label-4">Elective 4 *</label>
+                <span class="text-[9px] text-slate-400 font-semibold">Mark (%)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <select name="electiveSubject4" id="enroll-elective-4" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800"></select>
+                <input type="number" step="1" min="0" max="100" name="electiveScore4" value="87" class="w-20 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-blue-950 text-center">
+              </div>
             </div>
           </div>
         </div>
@@ -1071,7 +1169,7 @@
           <div>
             <label class="block font-bold text-slate-800 mb-1">Division *</label>
             <select id="teacher-form-division" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold">
-              <option value="Senior High School" selected>Senior High School (Grades 9-12)</option>
+              <option value="Senior High School" selected>Senior High School (Grades 10-12)</option>
             </select>
           </div>
           <div>
@@ -1217,11 +1315,10 @@
           <div>
             <label class="block font-bold text-slate-800 mb-1">Target High School Grade</label>
             <select id="broadcast-target-division" onchange="renderBroadcastRecipientsPreview()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-blue-950">
-              <option value="all">All Senior High School Parents (Grades 9 - 12)</option>
-              <option value="Grade 9">Grade 9 Parents (Senior High 1)</option>
-              <option value="Grade 10">Grade 10 Parents (Senior High 2)</option>
-              <option value="Grade 11">Grade 11 Parents (Senior High 3)</option>
-              <option value="Grade 12">Grade 12 Parents (Senior High 4)</option>
+              <option value="all">All Senior High School Parents (Grades 10 - 12)</option>
+              <option value="Grade 10">Grade 10 Parents (Senior High 1)</option>
+              <option value="Grade 11">Grade 11 Parents (Senior High 2)</option>
+              <option value="Grade 12">Grade 12 Parents (Senior High 3)</option>
             </select>
           </div>
           <div>
@@ -1340,7 +1437,7 @@
           </p>
 
           <div class="flex items-center gap-2">
-            <input type="text" id="share-portal-url-input" readonly value="https://american-dara-academy-1-uyy3.onrender.com" class="w-full p-2.5 bg-white border border-emerald-300 rounded-xl font-mono text-xs text-blue-950 font-black shadow-sm">
+            <input type="text" id="share-portal-url-input" readonly value="https://anisa-senior-high-school-1.onrender.com" class="w-full p-2.5 bg-white border border-emerald-300 rounded-xl font-mono text-xs text-blue-950 font-black shadow-sm">
             <button onclick="copySharePortalLink()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow transition shrink-0 flex items-center gap-1.5">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Link
             </button>
@@ -1370,7 +1467,7 @@
 
         <!-- QR Code for Mobile Scanning -->
         <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center gap-4">
-          <img id="share-qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Famerican-dara-academy-1-uyy3.onrender.com" alt="Staff QR Login" class="w-24 h-24 rounded-xl border bg-white p-1 shadow-sm shrink-0">
+          <img id="share-qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fanisa-senior-high-school-1.onrender.com" alt="Staff QR Login" class="w-24 h-24 rounded-xl border bg-white p-1 shadow-sm shrink-0">
           <div class="space-y-1 text-center sm:text-left">
             <div class="font-bold text-slate-900 text-xs">📷 Instant Phone QR Code Scanner</div>
             <p class="text-[11px] text-slate-500 leading-relaxed">
@@ -1382,7 +1479,7 @@
         <!-- Official Online Domain Card -->
         <div class="p-3 bg-white rounded-xl border flex items-center justify-between text-[11px] text-slate-500">
           <span>🌐 24/7 Official Live Website:</span>
-          <span class="font-mono font-bold text-blue-950" id="share-lan-ip-display">https://american-dara-academy-1-uyy3.onrender.com</span>
+          <span class="font-mono font-bold text-blue-950" id="share-lan-ip-display">https://anisa-senior-high-school-1.onrender.com</span>
         </div>
 
         <div class="flex justify-end pt-2 border-t">
@@ -1420,7 +1517,7 @@
           </p>
 
           <div class="flex items-center gap-2">
-            <input type="text" id="public-remote-url-input" readonly value="https://american-dara-academy-1-uyy3.onrender.com" class="w-full p-2.5 bg-white border border-emerald-300 rounded-xl font-mono text-xs text-blue-950 font-bold shadow-sm">
+            <input type="text" id="public-remote-url-input" readonly value="https://anisa-senior-high-school-1.onrender.com" class="w-full p-2.5 bg-white border border-emerald-300 rounded-xl font-mono text-xs text-blue-950 font-bold shadow-sm">
             <button onclick="copyRemoteUrl()" class="px-3 py-2.5 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl shadow transition shrink-0 flex items-center gap-1">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
             </button>
@@ -1428,7 +1525,7 @@
 
           <!-- Live QR Code -->
           <div class="bg-white p-3 rounded-2xl border border-emerald-200 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-            <img id="remote-qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Famerican-dara-academy-1-uyy3.onrender.com" alt="Scan QR Code" class="w-24 h-24 rounded-xl border p-1 shadow-sm shrink-0">
+            <img id="remote-qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fanisa-senior-high-school-1.onrender.com" alt="Scan QR Code" class="w-24 h-24 rounded-xl border p-1 shadow-sm shrink-0">
             <div>
               <div class="font-bold text-slate-900 text-xs">📷 Scan QR Code with Phone Camera</div>
               <div class="text-[11px] text-slate-500 mt-1 leading-relaxed">
@@ -1444,7 +1541,7 @@
             <i data-lucide="shield-check" class="w-4 h-4 text-blue-900"></i> Official High School Address:
           </div>
           <div class="font-mono text-xs text-blue-950 font-bold bg-white p-2 rounded-lg border">
-            https://american-dara-academy-1-uyy3.onrender.com
+            https://anisa-senior-high-school-1.onrender.com
           </div>
           <div class="text-[10px] text-slate-400">Available 24/7 on Render cloud hosting worldwide.</div>
         </div>
@@ -1528,9 +1625,9 @@
           <div id="print-letterhead-text-container" class="border-b-2 border-blue-900 pb-4 text-center space-y-2">
             <img id="print-letterhead-logo" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-2xl mx-auto object-cover ring-2 ring-pink-500/40">
             <h1 class="font-crest font-extrabold text-2xl text-blue-950" id="print-header-title">ANISA SENIOR HIGH SCHOOL</h1>
-            <p class="text-xs font-bold text-pink-700 uppercase tracking-widest" id="print-sub-header">SENIOR HIGH SCHOOL • GRADES 9 - 12</p>
+            <p class="text-xs font-bold text-pink-700 uppercase tracking-widest" id="print-sub-header">SENIOR HIGH SCHOOL • GRADES 10 - 12</p>
             <div class="text-[10px] text-slate-500" id="print-address">Route des Almadies Campus, Dakar</div>
-            <div class="text-[10px] text-slate-500" id="print-contact">Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com | Web: <span class="font-bold text-blue-900">american-dara-academy-1-uyy3.onrender.com</span></div>
+            <div class="text-[10px] text-slate-500" id="print-contact">Tel/WhatsApp: +19174788477 | Email: anisa2009@gmail.com</div>
           </div>
 
           <div id="print-report-body" class="space-y-4 text-xs"></div>
@@ -1549,21 +1646,17 @@
 
   <!-- Footer -->
   <footer class="bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 text-slate-300 text-xs py-6 border-t border-pink-500/30 no-print mt-auto">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="w-full px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <div>
         <span class="font-crest font-bold text-white tracking-wider">ANISA SENIOR HIGH SCHOOL</span>
-        <p class="text-[11px] text-pink-200/80">Senior High School (Grades 9 - 12) • Excellence, Leadership & Integrity</p>
+        <p class="text-[11px] text-pink-200/80">Senior High School (Grades 10 - 12) • Excellence, Leadership & Integrity</p>
       </div>
-      <div class="flex items-center gap-3 text-[11px] text-slate-300">
-        <a href="https://american-dara-academy-1-uyy3.onrender.com" target="_blank" class="hover:text-pink-400 font-bold transition flex items-center gap-1">
-          <i data-lucide="globe" class="w-3.5 h-3.5 text-pink-400"></i> american-dara-academy-1-uyy3.onrender.com
-        </a>
-        <span class="text-slate-600">|</span>
-        <span class="text-slate-400">GradeLink SIS Engine</span>
+      <div class="flex items-center gap-3 text-[11px] text-slate-400">
+        <span>GradeLink SIS Engine</span>
       </div>
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=3.0"></script>
 </body>
 </html>

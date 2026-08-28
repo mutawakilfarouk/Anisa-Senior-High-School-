@@ -36,8 +36,8 @@ body {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -58,6 +58,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-start;
   margin-bottom: 0.875rem;
   transition: transform 0.25s ease;
 }
