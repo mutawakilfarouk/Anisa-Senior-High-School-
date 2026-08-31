@@ -1,0 +1,23 @@
+{
+  "name": "anisa-senior-high-school",
+  "version": "1.0.0",
+  "description": "Anisa Senior High School - School Management & GradeLink SIS Portal",
+  "main": "server.js",
+  "scripts": {
+    "build": "echo 'Ready'",
+    "start": "node server.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "school-management",
+    "gradelink",
+    "sis",
+    "anisa-senior-high-school"
+  ],
+  "author": "Mr. Abdul Nasir Musah",
+  "license": "ISC"
+}
